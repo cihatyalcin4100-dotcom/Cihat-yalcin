@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>world of word</title>
+  <style>
+    * { box-sizing: border-box; }
+
+    html, body {
+      overflow-x: hidden;
+      overscroll-behavior: none;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f3f5f7;
+      color: #222;
+      -webkit-text-size-adjust: 100%;
+      touch-action: manipulation;
+    }
+
+    .screen {
+      display: none;
+      max-width: 560px;
+      margin: 0 auto;
+      padding: 18px;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 18px;
+      padding: 20px;
+      margin-top: 18px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    }
+
+    h1, h2 {
+      text-align: center;
+      margin: 0 0 16px;
+    }
+
+    .menu-btn,
+    .choice-btn,
+    .danger-btn {
+      width: 100%;
+      border: none;
+      border-radius: 14px;
+      padding: 14px;
+      font-size: 17px;
+      cursor: pointer;
+      margin-top: 12px;
+      touch-action: manipulation;
+    }
+
+    .menu-btn {
+      background: #222;
+      color: #fff;
+    }
+
+    .danger-btn {
+      background: #b83a3a;
+      color: #fff;
+    }
+
+    .choice-btn {
+      background: #e9edf3;
+      color: #222;
+      text-align: left;
+    }
+
+    .choice-btn.correct {
+      background: #33a35c;
+      color: #fff;
+    }
+
+    .choice-btn.wrong {
+      background: #da4f4f;
+      color: #fff;
+    }
+
+    .word-row {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      margin: 10px 0 18px;
+      flex-wrap: wrap;
+    }
+
+    .word {
+      font-size: 34px;
+      font-weight: bold;
+      text-align: center;
+      word-break: break-word;
+    }
+
+    .speaker-btn,
+    .icon-btn,
+    .nav-btn {
+      border: none;
+      background: #eef2f6;
+      border-radius: 12px;
+      width: 48px;
+      height: 48px;
+      font-size: 24px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      touch-action: manipulation;
+    }
+
+    .speaker-btn:active,
+    .icon-btn:active,
+    .nav-btn:active {
+      transform: scale(0.97);
+    }
+
+    .icon-btn-row {
+      display: flex;
+      justify-content: center;
+      margin-top: 12px;
+    }
+
+    .nav-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 12px;
+      gap: 12px;
+    }
+
+    .nav-spacer {
+      flex: 1;
+    }
+
+    .hint-box {
+      display: none;
+      margin-top: 16px;
+      background: #fff8d7;
+      border: 1px solid #ecd98d;
+      padding: 14px;
+      border-radius: 14px;
+      text-align: left;
+    }
+
+    .hint-title {
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+    .hint-image {
+      display: none;
+      width: 100%;
+      max-height: 240px;
+      object-fit: contain;
+      margin-top: 10px;
+      border-radius: 14px;
+      background: #fff;
+    }
+
+    .status {
+      margin-top: 16px;
+      text-align: center;
+      font-weight: bold;
+      min-height: 22px;
+    }
+
+    .small-count {
+      font-size: 13px;
+      color: #666;
+      margin-bottom: 10px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 16px;
+    }
+
+    th, td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: center;
+      font-size: 15px;
+    }
+
+    th {
+      background: #f1f3f5;
+    }
+
+    .modal-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.45);
+      z-index: 9999;
+      padding: 20px;
+    }
+
+    .modal-card {
+      max-width: 420px;
+      margin: 120px auto 0;
+      background: #fff;
+      border-radius: 16px;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .modal-title {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 16px;
+    }
+  </style>
+</head>
+<body>
+
+  <section id="homeScreen" class="screen">
+    <div class="card">
+      <h1>world of word</h1>
+      <button id="startTestBtn" class="menu-btn">Teste Başla</button>
+      <button id="showStatsBtn" class="menu-btn">Test Sonucu</button>
+      <button id="showCompletedBtn" class="menu-btn">Tamamlananlar</button>
+      <button id="showReviewBtn" class="menu-btn">Tekrar</button>
+      <button id="clearAllBtn" class="danger-btn">Temizle</button>
+    </div>
+  </section>
+
+  <section id="testScreen" class="screen">
+    <div class="card">
+      <div id="testCount" class="small-count">0/0</div>
+
+      <div class="word-row">
+        <div id="word" class="word">word</div>
+        <button id="speakBtn" class="speaker-btn" title="Telaffuz">🔊</button>
+      </div>
+
+      <div id="choices"></div>
+
+      <div class="icon-btn-row">
+        <button id="hintBtn" class="icon-btn" title="İpucu">💡</button>
+      </div>
+
+      <div id="hintBox" class="hint-box">
+        <div class="hint-title">İpucu</div>
+        <div id="hintText"></div>
+        <img id="hintImage" class="hint-image" src="" alt="İpucu görseli">
+      </div>
+
+      <div id="status" class="status"></div>
+
+      <div class="nav-row">
+        <button id="prevBtn" class="nav-btn" title="Önceki">◀</button>
+        <div class="nav-spacer"></div>
+        <button id="nextBtn" class="nav-btn" title="Sonraki">▶</button>
+      </div>
+
+      <button id="addCompletedBtn" class="menu-btn">Tamamlanana Ekle</button>
+      <button id="addReviewBtn" class="menu-btn">Tekrara Ekle</button>
+      <button id="testHomeBtn" class="menu-btn">Ana Menü</button>
+    </div>
+  </section>
+
+  <section id="reviewScreen" class="screen">
+    <div class="card">
+      <div id="reviewCount" class="small-count">0/0</div>
+
+      <div class="word-row">
+        <div id="reviewWord" class="word">word</div>
+        <button id="reviewSpeakBtn" class="speaker-btn" title="Telaffuz">🔊</button>
+      </div>
+
+      <div id="reviewChoices"></div>
+
+      <div class="icon-btn-row">
+        <button id="reviewHintBtn" class="icon-btn" title="İpucu">💡</button>
+      </div>
+
+      <div id="reviewHintBox" class="hint-box">
+        <div class="hint-title">İpucu</div>
+        <div id="reviewHintText"></div>
+        <img id="reviewHintImage" class="hint-image" src="" alt="İpucu görseli">
+      </div>
+
+      <div id="reviewStatus" class="status"></div>
+
+      <div class="nav-row">
+        <button id="reviewPrevBtn" class="nav-btn" title="Önceki">◀</button>
+        <div class="nav-spacer"></div>
+        <button id="reviewNextBtn" class="nav-btn" title="Sonraki">▶</button>
+      </div>
+
+      <button id="reviewAddCompletedBtn" class="menu-btn">Tamamlanana Ekle</button>
+      <button id="reviewHomeBtn" class="menu-btn">Ana Menü</button>
+    </div>
+  </section>
+
+  <section id="completedScreen" class="screen">
+    <div class="card">
+      <div id="completedCount" class="small-count">0/0</div>
+
+      <div class="word-row">
+        <div id="completedWord" class="word">word</div>
+        <button id="completedSpeakBtn" class="speaker-btn" title="Telaffuz">🔊</button>
+      </div>
+
+      <div id="completedChoices"></div>
+
+      <div class="icon-btn-row">
+        <button id="completedHintBtn" class="icon-btn" title="İpucu">💡</button>
+      </div>
+
+      <div id="completedHintBox" class="hint-box">
+        <div class="hint-title">İpucu</div>
+        <div id="completedHintText"></div>
+        <img id="completedHintImage" class="hint-image" src="" alt="İpucu görseli">
+      </div>
+
+      <div id="completedStatus" class="status"></div>
+
+      <div class="nav-row">
+        <button id="completedPrevBtn" class="nav-btn" title="Önceki">◀</button>
+        <div class="nav-spacer"></div>
+        <button id="completedNextBtn" class="nav-btn" title="Sonraki">▶</button>
+      </div>
+
+      <button id="completedAddReviewBtn" class="menu-btn">Tekrara Ekle</button>
+      <button id="completedHomeBtn" class="menu-btn">Ana Menü</button>
+    </div>
+  </section>
+
+  <section id="statsScreen" class="screen">
+    <div class="card">
+      <h2>Test Sonucu</h2>
+
+      <table>
+        <tr>
+          <th>Toplam Kelime</th>
+          <th>Cevaplanan</th>
+          <th>Doğru</th>
+          <th>Yanlış</th>
+        </tr>
+        <tr>
+          <td id="statTotalWords">0</td>
+          <td id="statAnswered">0</td>
+          <td id="statCorrect">0</td>
+          <td id="statWrong">0</td>
+        </tr>
+      </table>
+
+      <button id="resetStatsBtn" class="danger-btn">İstatistikleri Sıfırla</button>
+      <button id="statsHomeBtn" class="menu-btn">Ana Menü</button>
+    </div>
+  </section>
+
+  <div id="clearModal" class="modal-backdrop">
+    <div class="modal-card">
+      <div class="modal-title">Tüm tercihler silinsin mi?</div>
+      <button id="confirmClearBtn" class="danger-btn">Evet</button>
+      <button id="cancelClearBtn" class="menu-btn">Hayır</button>
+    </div>
+  </div>
+
+  <script>
+    function makeEmojiImage(emoji) {
+      const svg = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="600" height="420" viewBox="0 0 600 420">
+          <rect width="600" height="420" rx="32" fill="#ffffff"/>
+          <rect x="18" y="18" width="564" height="384" rx="24" fill="#f6f8fa" stroke="#dde3ea" stroke-width="3"/>
+          <text x="300" y="220" text-anchor="middle" font-size="140">${emoji}</text>
+        </svg>
+      `;
+      return "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(svg);
+    }
+
+    const WORDS = [
+      { en:"abandon", tr:"terk etmek", hint:"They had to abandon the old house.", d:["vazgeçmek","reddetmek"] },
+      { en:"absorb", tr:"emmek, soğurmak", hint:"Plants absorb water through their roots.", d:["yaymak","sızdırmak"] },
+      { en:"accept", tr:"kabul etmek", hint:"She accepted the job offer.", d:["reddetmek","ertelemek"] },
+      { en:"achieve", tr:"başarmak", hint:"He worked hard to achieve his goal.", d:["vazgeçmek","korumak"] },
+      { en:"adapt", tr:"uyum sağlamak", hint:"Animals adapt to changes in climate.", d:["karşı çıkmak","ayırmak"] },
+      { en:"affect", tr:"etkilemek", hint:"Bad weather can affect crop production.", d:["engellemek","geliştirmek"] },
+      { en:"allow", tr:"izin vermek", hint:"The rules allow students to use dictionaries.", d:["yasaklamak","zorlamak"] },
+      { en:"analyze", tr:"analiz etmek", hint:"Scientists analyze the data carefully.", d:["gizlemek","ezberlemek"] },
+      { en:"appear", tr:"görünmek", hint:"New problems appeared during the experiment.", d:["kaybolmak","azalmak"] },
+      { en:"apply", tr:"uygulamak", hint:"You should apply this method.", d:["reddetmek","bozmak"] },
+
+      { en:"approach", tr:"yaklaşım", hint:"This new approach may solve the problem.", d:["uzaklaşma","engel"] },
+      { en:"argue", tr:"savunmak", hint:"Many experts argue that the plan is wrong.", d:["kanıtlamak","reddetmek"] },
+      { en:"assume", tr:"varsaymak", hint:"We cannot assume that all people think alike.", d:["kanıtlamak","reddetmek"] },
+      { en:"attempt", tr:"girişim", hint:"Her attempt was successful.", d:["engel","karar"] },
+      { en:"avoid", tr:"kaçınmak", hint:"Drivers should avoid using phones.", d:["katlanmak","önermek"] },
+      { en:"benefit", tr:"fayda", hint:"Exercise has many benefits.", d:["zarar","engel"] },
+      { en:"cause", tr:"neden", hint:"Smoking is a major cause.", d:["sonuç","çözüm"] },
+      { en:"change", tr:"değişim", hint:"Climate change affects the world.", d:["istikrar","benzerlik"] },
+      { en:"claim", tr:"iddia", hint:"The company claims it is safe.", d:["kanıt","itiraf"] },
+      { en:"common", tr:"yaygın", hint:"This disease is common.", d:["nadir","zararlı"] },
+
+      { en:"compare", tr:"karşılaştırmak", hint:"Researchers compared the results.", d:["birleştirmek","saklamak"] },
+      { en:"concern", tr:"kaygı", hint:"Pollution is a serious concern.", d:["çözüm","ayrıntı"] },
+      { en:"conduct", tr:"yürütmek", hint:"The team conducted a survey.", d:["iptal etmek","önlemek"] },
+      { en:"consider", tr:"dikkate almak", hint:"We must consider all risks.", d:["görmezden gelmek","reddetmek"] },
+      { en:"consume", tr:"tüketmek", hint:"Cars consume fuel.", d:["üretmek","saklamak"] },
+      { en:"contain", tr:"içermek", hint:"The report contains data.", d:["gizlemek","azaltmak"] },
+      { en:"context", tr:"bağlam", hint:"Meaning changes with context.", d:["yöntem","kanıt"] },
+      { en:"contribute", tr:"katkıda bulunmak", hint:"Many factors contribute.", d:["engel olmak","itiraz etmek"] },
+      { en:"control", tr:"kontrol etmek", hint:"They control inflation.", d:["arttırmak","serbest bırakmak"] },
+      { en:"create", tr:"oluşturmak", hint:"Technology creates jobs.", d:["yıkmak","gizlemek"] },
+
+      { en:"damage", tr:"zarar", hint:"The storm caused damage.", d:["onarım","fayda"] },
+      { en:"data", tr:"veri", hint:"Researchers collected data.", d:["yorum","tahmin"] },
+      { en:"decline", tr:"azalma", hint:"There is a decline.", d:["artış","başlangıç"] },
+      { en:"define", tr:"tanımlamak", hint:"It is hard to define success.", d:["karıştırmak","görmezden gelmek"] },
+      { en:"demand", tr:"talep", hint:"Energy demand grows.", d:["arz","engel"] },
+      { en:"depend", tr:"bağlı olmak", hint:"The result depends.", d:["ayrılmak","reddetmek"] },
+      { en:"describe", tr:"tanımlamak", hint:"He described the accident.", d:["gizlemek","kanıtlamak"] },
+      { en:"develop", tr:"geliştirmek", hint:"They developed a method.", d:["yavaşlatmak","reddetmek"] },
+      { en:"difference", tr:"fark", hint:"There is a difference.", d:["benzerlik","yöntem"] },
+      { en:"disease", tr:"hastalık", hint:"The disease spreads.", d:["tedavi","yaralanma"] },
+
+      { en:"effect", tr:"etki", hint:"Stress has effects.", d:["neden","amaç"] },
+      { en:"evidence", tr:"kanıt", hint:"Police found evidence.", d:["iddia","şüphe"] },
+      { en:"exist", tr:"var olmak", hint:"Records exist.", d:["kaybolmak","değişmek"] },
+      { en:"expect", tr:"beklemek", hint:"Experts expect change.", d:["reddetmek","önlemek"] },
+      { en:"explain", tr:"açıklamak", hint:"Explain the result.", d:["gizlemek","özetlemek"] },
+      { en:"factor", tr:"faktör", hint:"Cost is a factor.", d:["sonuç","teori"] },
+      { en:"feature", tr:"özellik", hint:"Safety is the main feature.", d:["kusur","tehlike"] },
+      { en:"focus", tr:"odaklanmak", hint:"The study focuses on youth.", d:["kaçınmak","dağılmak"] },
+      { en:"function", tr:"işlev", hint:"The heart functions as pump.", d:["zarar","engel"] },
+      { en:"increase", tr:"artmak", hint:"Prices increased.", d:["azalmak","dengelemek"] },
+
+      { en:"identify", tr:"belirlemek", hint:"Identify the main cause.", d:["gizlemek","reddetmek"] },
+      { en:"improve", tr:"iyileştirmek", hint:"Practice improves skills.", d:["bozmak","azaltmak"] },
+      { en:"include", tr:"içermek", hint:"The price includes dinner.", d:["hariç tutmak","reddetmek"] },
+      { en:"indicate", tr:"göstermek", hint:"Results indicate change.", d:["gizlemek","engellemek"] },
+      { en:"individual", tr:"birey", hint:"Each individual is different.", d:["toplum","kurum"] },
+      { en:"industry", tr:"sanayi", hint:"Tourism industry grows.", d:["tarım","eğitim"] },
+      { en:"influence", tr:"etki", hint:"Parents influence children.", d:["engel","zarar"] },
+      { en:"involve", tr:"içermek", hint:"The job involves data.", d:["dışlamak","azaltmak"] },
+      { en:"issue", tr:"konu", hint:"Climate is a global issue.", d:["çözüm","ayrıntı"] },
+      { en:"knowledge", tr:"bilgi", hint:"Reading builds knowledge.", d:["şüphe","tahmin"] },
+
+      { en:"lack", tr:"eksiklik", hint:"Lack of sleep reduces focus.", d:["bolluk","fazlalık"] },
+      { en:"likely", tr:"olası", hint:"Rain is likely tomorrow.", d:["imkansız","zararlı"] },
+      { en:"maintain", tr:"sürdürmek", hint:"Maintain a healthy life.", d:["bozmak","terk etmek"] },
+      { en:"major", tr:"önemli", hint:"This is a major issue.", d:["küçük","geçici"] },
+      { en:"measure", tr:"önlem", hint:"New measures were introduced.", d:["zarar","sebep"] },
+      { en:"method", tr:"yöntem", hint:"This method is faster.", d:["kanıt","sonuç"] },
+      { en:"occur", tr:"meydana gelmek", hint:"Earthquakes occur here.", d:["önlenmek","azalmak"] },
+      { en:"offer", tr:"teklif", hint:"The company offered help.", d:["reddetmek","engellemek"] },
+      { en:"policy", tr:"politika", hint:"The policy changed.", d:["yöntem","teori"] },
+      { en:"population", tr:"nüfus", hint:"Population increased rapidly.", d:["toprak","ekonomi"] },
+
+      { en:"present", tr:"sunmak", hint:"Students present reports.", d:["saklamak","iptal etmek"] },
+      { en:"prevent", tr:"önlemek", hint:"Vaccines prevent disease.", d:["neden olmak","arttırmak"] },
+      { en:"process", tr:"süreç", hint:"Learning is a process.", d:["sonuç","kanıt"] },
+      { en:"produce", tr:"üretmek", hint:"Factories produce cars.", d:["tüketmek","saklamak"] },
+      { en:"provide", tr:"sağlamak", hint:"Schools provide books.", d:["engellemek","reddetmek"] },
+      { en:"purpose", tr:"amaç", hint:"The purpose is clear.", d:["sonuç","engel"] },
+      { en:"quality", tr:"kalite", hint:"Water quality improved.", d:["miktar","fiyat"] },
+      { en:"range", tr:"çeşitlilik", hint:"A wide range is available.", d:["neden","daralma"] },
+      { en:"rate", tr:"oran", hint:"The rate fell.", d:["yöntem","ölçü"] },
+      { en:"reduce", tr:"azaltmak", hint:"Reduce costs quickly.", d:["arttırmak","genişletmek"] },
+
+      { en:"research", tr:"araştırma", hint:"Research shows new results.", d:["tahmin","yorum"] },
+      { en:"resource", tr:"kaynak", hint:"Water is a resource.", d:["engel","sonuç"] },
+      { en:"response", tr:"tepki", hint:"Quick response saved lives.", d:["neden","karar"] },
+      { en:"result", tr:"sonuç", hint:"The final result surprised all.", d:["neden","yöntem"] },
+      { en:"role", tr:"rol", hint:"Parents play a key role.", d:["sorun","oran"] },
+      { en:"section", tr:"bölüm", hint:"Read the last section.", d:["sonuç","teori"] },
+      { en:"significant", tr:"önemli", hint:"There was a significant rise.", d:["önemsiz","geçici"] },
+      { en:"similar", tr:"benzer", hint:"The two cases are similar.", d:["farklı","zararlı"] },
+      { en:"source", tr:"kaynak", hint:"The river is the source.", d:["engel","neden"] },
+      { en:"structure", tr:"yapı", hint:"Essay structure matters.", d:["amaç","etki"] },
+
+      { en:"determine", tr:"belirlemek", hint:"Determine the real cause.", d:["gizlemek","reddetmek"] },
+      { en:"establish", tr:"kurmak", hint:"They established a center.", d:["yıkmak","bozmak"] },
+      { en:"ensure", tr:"garanti etmek", hint:"Rules ensure safety.", d:["engellemek","zayıflatmak"] },
+      { en:"evaluate", tr:"değerlendirmek", hint:"Experts evaluated the plan.", d:["gizlemek","reddetmek"] },
+      { en:"estimate", tr:"tahmin etmek", hint:"They estimated the cost.", d:["ölçmek","kanıtlamak"] },
+      { en:"exceed", tr:"aşmak", hint:"The cost may exceed the limit.", d:["azalmak","düşmek"] },
+      { en:"exclude", tr:"hariç tutmak", hint:"They excluded bad data.", d:["eklemek","dahil etmek"] },
+      { en:"expand", tr:"genişletmek", hint:"The company will expand.", d:["daraltmak","azaltmak"] },
+      { en:"expose", tr:"açığa çıkarmak", hint:"The report exposed problems.", d:["gizlemek","örtmek"] },
+      { en:"facilitate", tr:"kolaylaştırmak", hint:"Technology facilitates learning.", d:["zorlaştırmak","engellemek"] },
+
+      { en:"generate", tr:"üretmek", hint:"The system generates power.", d:["tüketmek","azaltmak"] },
+      { en:"implement", tr:"uygulamak", hint:"They implemented a policy.", d:["reddetmek","iptal etmek"] },
+      { en:"interpret", tr:"yorumlamak", hint:"Interpret the results carefully.", d:["gizlemek","reddetmek"] },
+      { en:"justify", tr:"haklı göstermek", hint:"Nothing justifies violence.", d:["eleştirmek","reddetmek"] },
+      { en:"obtain", tr:"elde etmek", hint:"She obtained the certificate.", d:["kaybetmek","reddetmek"] },
+      { en:"predict", tr:"tahmin etmek", hint:"Experts predict growth.", d:["engellemek","reddetmek"] },
+      { en:"promote", tr:"teşvik etmek", hint:"The campaign promotes health.", d:["engellemek","yasaklamak"] },
+      { en:"retain", tr:"korumak", hint:"It is hard to retain details.", d:["kaybetmek","bırakmak"] },
+      { en:"reveal", tr:"ortaya çıkarmak", hint:"The study revealed facts.", d:["gizlemek","örtmek"] },
+      { en:"shift", tr:"değişmek", hint:"Public opinion may shift.", d:["sabit kalmak","durmak"] },
+
+      { en:"strategy", tr:"strateji", hint:"They changed strategy.", d:["plan","engel"] },
+      { en:"trend", tr:"eğilim", hint:"This trend is common.", d:["alışkanlık","sonuç"] },
+      { en:"impact", tr:"etki", hint:"Climate has great impact.", d:["neden","amaç"] },
+      { en:"beneficial", tr:"yararlı", hint:"Exercise is beneficial.", d:["zararlı","gereksiz"] },
+      { en:"efficient", tr:"verimli", hint:"This machine is efficient.", d:["yavaş","zararlı"] },
+      { en:"reliable", tr:"güvenilir", hint:"The source is reliable.", d:["yanlış","zayıf"] },
+      { en:"relevant", tr:"ilgili", hint:"Give relevant information.", d:["alakasız","gereksiz"] },
+      { en:"temporary", tr:"geçici", hint:"This is temporary.", d:["kalıcı","zor"] },
+      { en:"previous", tr:"önceki", hint:"Previous studies support it.", d:["sonraki","gelecek"] },
+      { en:"initial", tr:"ilk", hint:"Initial results were good.", d:["son","orta"] },
+
+      { en:"access", tr:"erişim", hint:"Students need access.", d:["engel","yöntem"] },
+      { en:"accurate", tr:"doğru", hint:"The results are accurate.", d:["yanlış","zayıf"] },
+      { en:"acquire", tr:"edinmek", hint:"Children acquire language.", d:["kaybetmek","reddetmek"] },
+      { en:"additional", tr:"ek", hint:"Additional support is needed.", d:["önceki","az"] },
+      { en:"adequate", tr:"yeterli", hint:"Food is adequate.", d:["yetersiz","az"] },
+      { en:"adjust", tr:"ayarlamak", hint:"Adjust the settings.", d:["bozmak","kaldırmak"] },
+      { en:"administration", tr:"yönetim", hint:"The administration decided.", d:["plan","sistem"] },
+      { en:"admit", tr:"kabul etmek", hint:"He admitted the mistake.", d:["reddetmek","saklamak"] },
+      { en:"adopt", tr:"benimsemek", hint:"They adopted a new rule.", d:["reddetmek","iptal etmek"] },
+      { en:"advance", tr:"ilerleme", hint:"Science made advances.", d:["gerileme","engel"] },
+
+      { en:"advantage", tr:"avantaj", hint:"This has many advantages.", d:["dezavantaj","engel"] },
+      { en:"annual", tr:"yıllık", hint:"The annual report is ready.", d:["aylık","günlük"] },
+      { en:"assess", tr:"değerlendirmek", hint:"Experts assess the risk.", d:["gizlemek","reddetmek"] },
+      { en:"assign", tr:"atamak", hint:"The teacher assigned homework.", d:["iptal etmek","reddetmek"] },
+      { en:"assist", tr:"yardım etmek", hint:"Nurses assist doctors.", d:["engellemek","reddetmek"] },
+      { en:"authority", tr:"yetki", hint:"The authority approved it.", d:["engel","karar"] },
+      { en:"available", tr:"mevcut", hint:"The service is available.", d:["yok","zor"] },
+      { en:"aware", tr:"farkında", hint:"People are aware of risks.", d:["habersiz","uzak"] },
+      { en:"capacity", tr:"kapasite", hint:"The room capacity is 200.", d:["engel","sınır"] },
+      { en:"category", tr:"kategori", hint:"Books are in categories.", d:["yöntem","teori"] },
+
+      { en:"device", tr:"cihaz", type:"object", img:makeEmojiImage("📱"), d:["yöntem","sistem"] },
+      { en:"tool", tr:"alet", type:"object", img:makeEmojiImage("🔧"), d:["makine","parça"] },
+      { en:"machine", tr:"makine", type:"object", img:makeEmojiImage("⚙️"), d:["araç","alet"] },
+      { en:"vehicle", tr:"araç", type:"object", img:makeEmojiImage("🚗"), d:["yol","motor"] },
+      { en:"cell", tr:"hücre", type:"object", img:makeEmojiImage("🧬"), d:["organ","doku"] },
+      { en:"drug", tr:"ilaç", type:"object", img:makeEmojiImage("💊"), d:["vitamin","madde"] },
+      { en:"seed", tr:"tohum", type:"object", img:makeEmojiImage("🌱"), d:["bitki","toprak"] },
+      { en:"soil", tr:"toprak", type:"object", img:makeEmojiImage("🟫"), d:["kum","taş"] },
+      { en:"bridge", tr:"köprü", type:"object", img:makeEmojiImage("🌉"), d:["yol","tünel"] },
+      { en:"engine", tr:"motor", type:"object", img:makeEmojiImage("🚂"), d:["araç","yakıt"] }
+    ];
+
+    let completedWords = [];
+    let reviewWords = [];
+    let answeredMap = {};
+    let sessionWords = [];
+    let currentIndex = -1;
+    let currentWord = null;
+    let reviewIndex = 0;
+    let completedIndex = 0;
+
+    function loadState() {
+      try {
+        completedWords = JSON.parse(localStorage.getItem("wowCompletedWords")) || [];
+        reviewWords = JSON.parse(localStorage.getItem("wowReviewWords")) || [];
+      } catch {
+        completedWords = [];
+        reviewWords = [];
+      }
+      resetSessionStats();
+    }
+
+    function savePersistentState() {
+      localStorage.setItem("wowCompletedWords", JSON.stringify(completedWords));
+      localStorage.setItem("wowReviewWords", JSON.stringify(reviewWords));
+    }
+
+    function resetSessionStats() {
+      answeredMap = {};
+      sessionWords = [];
+      currentIndex = -1;
+      currentWord = null;
+    }
+
+    function show(screenId) {
+      document.querySelectorAll(".screen").forEach(s => {
+        s.style.display = "none";
+      });
+      document.getElementById(screenId).style.display = "block";
+    }
+
+    function showHome() {
+      hideClearModal();
+      show("homeScreen");
+    }
+
+    function shuffle(arr) {
+      return [...arr].sort(() => Math.random() - 0.5);
+    }
+
+    function uniquePushWord(list, word) {
+      if (!list.some(w => w.en === word.en)) {
+        list.push({ ...word });
+      }
+    }
+
+    function removeWord(list, word) {
+      return list.filter(w => w.en !== word.en);
+    }
+
+    function buildChoices(word) {
+      return shuffle([word.tr, ...word.d]);
+    }
+
+    function speakWord(word) {
+      if (!word) return;
+      window.speechSynthesis.cancel();
+      const u = new SpeechSynthesisUtterance(word.en);
+      u.lang = "en-US";
+      u.rate = 0.9;
+      speechSynthesis.speak(u);
+    }
+
+    function renderHint(boxId, textId, imageId, word) {
+      const hintBox = document.getElementById(boxId);
+      const hintText = document.getElementById(textId);
+      const hintImage = document.getElementById(imageId);
+
+      hintBox.style.display = "block";
+
+      if (word.type === "object" && word.img) {
+        hintText.textContent = "";
+        hintImage.src = word.img;
+        hintImage.style.display = "block";
+      } else {
+        hintText.textContent = word.hint || "";
+        hintImage.style.display = "none";
+        hintImage.src = "";
+      }
+    }
+
+    function markAnswer(word, isCorrect) {
+      if (!answeredMap[word.en]) {
+        answeredMap[word.en] = {
+          result: isCorrect ? "correct" : "wrong"
+        };
+      }
+    }
+
+    function applySavedStateToButtons(word, buttons) {
+      const saved = answeredMap[word.en];
+      if (!saved) return;
+
+      buttons.forEach(btn => {
+        btn.disabled = true;
+        if (btn.textContent === word.tr) {
+          btn.classList.add("correct");
+        }
+      });
+    }
+
+    function updateNavButtons() {
+      document.getElementById("prevBtn").disabled = currentIndex <= 0;
+      document.getElementById("nextBtn").disabled = currentIndex >= sessionWords.length - 1;
+    }
+
+    function updateReviewNavButtons() {
+      const prev = document.getElementById("reviewPrevBtn");
+      const next = document.getElementById("reviewNextBtn");
+
+      if (!reviewWords.length) {
+        prev.disabled = true;
+        next.disabled = true;
+        return;
+      }
+
+      prev.disabled = reviewIndex <= 0;
+      next.disabled = reviewIndex >= reviewWords.length - 1;
+    }
+
+    function updateCompletedNavButtons() {
+      const prev = document.getElementById("completedPrevBtn");
+      const next = document.getElementById("completedNextBtn");
+
+      if (!completedWords.length) {
+        prev.disabled = true;
+        next.disabled = true;
+        return;
+      }
+
+      prev.disabled = completedIndex <= 0;
+      next.disabled = completedIndex >= completedWords.length - 1;
+    }
+
+    function renderMainQuestion() {
+      show("testScreen");
+
+      const hintBox = document.getElementById("hintBox");
+      const hintText = document.getElementById("hintText");
+      const hintImage = document.getElementById("hintImage");
+      const choicesBox = document.getElementById("choices");
+
+      hintBox.style.display = "none";
+      hintText.textContent = "";
+      hintImage.style.display = "none";
+      hintImage.src = "";
+      choicesBox.innerHTML = "";
+      document.getElementById("status").textContent = "";
+
+      if (!sessionWords.length || currentIndex < 0 || currentIndex >= sessionWords.length) {
+        document.getElementById("testCount").textContent = "0/0";
+        document.getElementById("word").textContent = "Kelime yok";
+        updateNavButtons();
+        return;
+      }
+
+      currentWord = sessionWords[currentIndex];
+      document.getElementById("testCount").textContent = `${currentIndex + 1}/${sessionWords.length}`;
+      document.getElementById("word").textContent = currentWord.en;
+
+      const choices = buildChoices(currentWord);
+
+      choices.forEach(choice => {
+        const btn = document.createElement("button");
+        btn.className = "choice-btn";
+        btn.textContent = choice;
+
+        btn.addEventListener("click", () => {
+          if (answeredMap[currentWord.en]) return;
+
+          if (choice === currentWord.tr) {
+            btn.classList.add("correct");
+            markAnswer(currentWord, true);
+          } else {
+            btn.classList.add("wrong");
+            markAnswer(currentWord, false);
+          }
+
+          applySavedStateToButtons(currentWord, document.querySelectorAll("#choices .choice-btn"));
+          openResultSilently();
+        });
+
+        choicesBox.appendChild(btn);
+      });
+
+      if (answeredMap[currentWord.en]) {
+        applySavedStateToButtons(currentWord, document.querySelectorAll("#choices .choice-btn"));
+      }
+
+      updateNavButtons();
+    }
+
+    function renderSecondaryQuestion(word, cfg) {
+      currentWord = word;
+
+      document.getElementById(cfg.countId).textContent = cfg.countValue;
+      document.getElementById(cfg.wordId).textContent = word ? word.en : "Kelime yok";
+      document.getElementById(cfg.hintBoxId).style.display = "none";
+      document.getElementById(cfg.hintTextId).textContent = "";
+      document.getElementById(cfg.hintImageId).style.display = "none";
+      document.getElementById(cfg.hintImageId).src = "";
+      document.getElementById(cfg.statusId).textContent = "";
+
+      const choicesBox = document.getElementById(cfg.choicesId);
+      choicesBox.innerHTML = "";
+
+      if (!word) return;
+
+      buildChoices(word).forEach(choice => {
+        const btn = document.createElement("button");
+        btn.className = "choice-btn";
+        btn.textContent = choice;
+
+        btn.addEventListener("click", () => {
+          document.querySelectorAll(`#${cfg.choicesId} .choice-btn`).forEach(b => {
+            b.disabled = true;
+            if (b.textContent === word.tr) b.classList.add("correct");
+          });
+          if (choice !== word.tr) {
+            btn.classList.add("wrong");
+          }
+        });
+
+        choicesBox.appendChild(btn);
+      });
+    }
+
+    function renderReviewQuestion() {
+      show("reviewScreen");
+
+      if (!reviewWords.length) {
+        document.getElementById("reviewCount").textContent = "0/0";
+        document.getElementById("reviewWord").textContent = "Kelime yok";
+        document.getElementById("reviewChoices").innerHTML = "";
+        updateReviewNavButtons();
+        return;
+      }
+
+      if (reviewIndex < 0) reviewIndex = 0;
+      if (reviewIndex >= reviewWords.length) reviewIndex = reviewWords.length - 1;
+
+      renderSecondaryQuestion(reviewWords[reviewIndex], {
+        countId: "reviewCount",
+        countValue: `${reviewIndex + 1}/${reviewWords.length}`,
+        wordId: "reviewWord",
+        choicesId: "reviewChoices",
+        hintBoxId: "reviewHintBox",
+        hintTextId: "reviewHintText",
+        hintImageId: "reviewHintImage",
+        statusId: "reviewStatus"
+      });
+
+      updateReviewNavButtons();
+    }
+
+    function renderCompletedQuestion() {
+      show("completedScreen");
+
+      if (!completedWords.length) {
+        document.getElementById("completedCount").textContent = "0/0";
+        document.getElementById("completedWord").textContent = "Kelime yok";
+        document.getElementById("completedChoices").innerHTML = "";
+        updateCompletedNavButtons();
+        return;
+      }
+
+      if (completedIndex < 0) completedIndex = 0;
+      if (completedIndex >= completedWords.length) completedIndex = completedWords.length - 1;
+
+      renderSecondaryQuestion(completedWords[completedIndex], {
+        countId: "completedCount",
+        countValue: `${completedIndex + 1}/${completedWords.length}`,
+        wordId: "completedWord",
+        choicesId: "completedChoices",
+        hintBoxId: "completedHintBox",
+        hintTextId: "completedHintText",
+        hintImageId: "completedHintImage",
+        statusId: "completedStatus"
+      });
+
+      updateCompletedNavButtons();
+    }
+
+    function startTest() {
+      resetSessionStats();
+      sessionWords = shuffle(WORDS).map(w => ({ ...w }));
+      currentIndex = 0;
+      renderMainQuestion();
+    }
+
+    function goPrevWord() {
+      if (currentIndex > 0) {
+        currentIndex--;
+        renderMainQuestion();
+      }
+    }
+
+    function goNextWord() {
+      if (currentIndex < sessionWords.length - 1) {
+        currentIndex++;
+        renderMainQuestion();
+      }
+    }
+
+    function openReviewTest() {
+      reviewIndex = 0;
+      renderReviewQuestion();
+    }
+
+    function openCompletedTest() {
+      completedIndex = 0;
+      renderCompletedQuestion();
+    }
+
+    function goReviewPrev() {
+      if (reviewIndex > 0) {
+        reviewIndex--;
+        renderReviewQuestion();
+      }
+    }
+
+    function goReviewNext() {
+      if (reviewIndex < reviewWords.length - 1) {
+        reviewIndex++;
+        renderReviewQuestion();
+      }
+    }
+
+    function goCompletedPrev() {
+      if (completedIndex > 0) {
+        completedIndex--;
+        renderCompletedQuestion();
+      }
+    }
+
+    function goCompletedNext() {
+      if (completedIndex < completedWords.length - 1) {
+        completedIndex++;
+        renderCompletedQuestion();
+      }
+    }
+
+    function getCorrectCount() {
+      return Object.values(answeredMap).filter(v => v.result === "correct").length;
+    }
+
+    function getWrongCount() {
+      return Object.values(answeredMap).filter(v => v.result === "wrong").length;
+    }
+
+    function openResultSilently() {
+      document.getElementById("statTotalWords").textContent = WORDS.length;
+      document.getElementById("statAnswered").textContent = Object.keys(answeredMap).length;
+      document.getElementById("statCorrect").textContent = getCorrectCount();
+      document.getElementById("statWrong").textContent = getWrongCount();
+    }
+
+    function openResult() {
+      show("statsScreen");
+      openResultSilently();
+    }
+
+    function addCompleted() {
+      if (!currentWord) return;
+      uniquePushWord(completedWords, currentWord);
+      reviewWords = removeWord(reviewWords, currentWord);
+      savePersistentState();
+      renderMainQuestion();
+    }
+
+    function addReview() {
+      if (!currentWord) return;
+      uniquePushWord(reviewWords, currentWord);
+      completedWords = removeWord(completedWords, currentWord);
+      savePersistentState();
+      renderMainQuestion();
+    }
+
+    function moveToCompleted() {
+      if (!currentWord) return;
+      uniquePushWord(completedWords, currentWord);
+      reviewWords = removeWord(reviewWords, currentWord);
+
+      if (reviewIndex >= reviewWords.length) {
+        reviewIndex = Math.max(0, reviewWords.length - 1);
+      }
+
+      savePersistentState();
+      renderReviewQuestion();
+    }
+
+    function moveCompletedToReview() {
+      if (!currentWord) return;
+      uniquePushWord(reviewWords, currentWord);
+      completedWords = removeWord(completedWords, currentWord);
+
+      if (completedIndex >= completedWords.length) {
+        completedIndex = Math.max(0, completedWords.length - 1);
+      }
+
+      savePersistentState();
+      renderCompletedQuestion();
+    }
+
+    function resetStats() {
+      resetSessionStats();
+      openResult();
+    }
+
+    function showClearModal() {
+      document.getElementById("clearModal").style.display = "block";
+    }
+
+    function hideClearModal() {
+      document.getElementById("clearModal").style.display = "none";
+    }
+
+    function clearAllData() {
+      completedWords = [];
+      reviewWords = [];
+      resetSessionStats();
+
+      localStorage.removeItem("wowCompletedWords");
+      localStorage.removeItem("wowReviewWords");
+
+      hideClearModal();
+      showHome();
+    }
+
+    document.getElementById("startTestBtn").addEventListener("click", startTest);
+    document.getElementById("showStatsBtn").addEventListener("click", openResult);
+    document.getElementById("showCompletedBtn").addEventListener("click", openCompletedTest);
+    document.getElementById("showReviewBtn").addEventListener("click", openReviewTest);
+    document.getElementById("clearAllBtn").addEventListener("click", showClearModal);
+
+    document.getElementById("speakBtn").addEventListener("click", () => speakWord(currentWord));
+    document.getElementById("hintBtn").addEventListener("click", () => currentWord && renderHint("hintBox", "hintText", "hintImage", currentWord));
+    document.getElementById("prevBtn").addEventListener("click", goPrevWord);
+    document.getElementById("nextBtn").addEventListener("click", goNextWord);
+    document.getElementById("addCompletedBtn").addEventListener("click", addCompleted);
+    document.getElementById("addReviewBtn").addEventListener("click", addReview);
+    document.getElementById("testHomeBtn").addEventListener("click", showHome);
+
+    document.getElementById("reviewSpeakBtn").addEventListener("click", () => speakWord(currentWord));
+    document.getElementById("reviewHintBtn").addEventListener("click", () => currentWord && renderHint("reviewHintBox", "reviewHintText", "reviewHintImage", currentWord));
+    document.getElementById("reviewPrevBtn").addEventListener("click", goReviewPrev);
+    document.getElementById("reviewNextBtn").addEventListener("click", goReviewNext);
+    document.getElementById("reviewAddCompletedBtn").addEventListener("click", moveToCompleted);
+    document.getElementById("reviewHomeBtn").addEventListener("click", showHome);
+
+    document.getElementById("completedSpeakBtn").addEventListener("click", () => speakWord(currentWord));
+    document.getElementById("completedHintBtn").addEventListener("click", () => currentWord && renderHint("completedHintBox", "completedHintText", "completedHintImage", currentWord));
+    document.getElementById("completedPrevBtn").addEventListener("click", goCompletedPrev);
+    document.getElementById("completedNextBtn").addEventListener("click", goCompletedNext);
+    document.getElementById("completedAddReviewBtn").addEventListener("click", moveCompletedToReview);
+    document.getElementById("completedHomeBtn").addEventListener("click", showHome);
+
+    document.getElementById("resetStatsBtn").addEventListener("click", resetStats);
+    document.getElementById("statsHomeBtn").addEventListener("click", showHome);
+
+    document.getElementById("confirmClearBtn").addEventListener("click", clearAllData);
+    document.getElementById("cancelClearBtn").addEventListener("click", hideClearModal);
+
+    document.addEventListener("dblclick", function (e) {
+      e.preventDefault();
+    }, { passive: false });
+
+    loadState();
+    showHome();
+  </script>
+</body>
+</html>
