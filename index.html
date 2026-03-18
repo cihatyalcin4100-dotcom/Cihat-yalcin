@@ -6,12 +6,7 @@
   <title>world of word</title>
   <style>
     * { box-sizing: border-box; }
-
-    html, body {
-      overflow-x: hidden;
-      overscroll-behavior: none;
-    }
-
+    html, body { overflow-x: hidden; overscroll-behavior: none; }
     body {
       margin: 0;
       font-family: Arial, sans-serif;
@@ -20,14 +15,12 @@
       -webkit-text-size-adjust: 100%;
       touch-action: manipulation;
     }
-
     .screen {
       display: none;
       max-width: 560px;
       margin: 0 auto;
       padding: 18px;
     }
-
     .card {
       background: #fff;
       border-radius: 18px;
@@ -35,12 +28,10 @@
       margin-top: 18px;
       box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
     }
-
     h1, h2 {
       text-align: center;
       margin: 0 0 16px;
     }
-
     .menu-btn,
     .choice-btn,
     .danger-btn {
@@ -53,33 +44,27 @@
       margin-top: 12px;
       touch-action: manipulation;
     }
-
     .menu-btn {
       background: #222;
       color: #fff;
     }
-
     .danger-btn {
       background: #b83a3a;
       color: #fff;
     }
-
     .choice-btn {
       background: #e9edf3;
       color: #222;
       text-align: left;
     }
-
     .choice-btn.correct {
       background: #33a35c;
       color: #fff;
     }
-
     .choice-btn.wrong {
       background: #da4f4f;
       color: #fff;
     }
-
     .word-row {
       display: flex;
       justify-content: center;
@@ -88,14 +73,12 @@
       margin: 10px 0 18px;
       flex-wrap: wrap;
     }
-
     .word {
       font-size: 34px;
       font-weight: bold;
       text-align: center;
       word-break: break-word;
     }
-
     .speaker-btn,
     .icon-btn,
     .nav-btn {
@@ -112,19 +95,16 @@
       padding: 0;
       touch-action: manipulation;
     }
-
     .speaker-btn:active,
     .icon-btn:active,
     .nav-btn:active {
       transform: scale(0.97);
     }
-
     .icon-btn-row {
       display: flex;
       justify-content: center;
       margin-top: 12px;
     }
-
     .nav-row {
       display: flex;
       justify-content: space-between;
@@ -132,11 +112,9 @@
       margin-top: 12px;
       gap: 12px;
     }
-
     .nav-spacer {
       flex: 1;
     }
-
     .hint-box {
       display: none;
       margin-top: 16px;
@@ -146,12 +124,10 @@
       border-radius: 14px;
       text-align: left;
     }
-
     .hint-title {
       font-weight: bold;
       margin-bottom: 8px;
     }
-
     .hint-image {
       display: none;
       width: 100%;
@@ -161,37 +137,38 @@
       border-radius: 14px;
       background: #fff;
     }
-
     .status {
       margin-top: 16px;
       text-align: center;
       font-weight: bold;
       min-height: 22px;
     }
-
     .small-count {
       font-size: 13px;
       color: #666;
       margin-bottom: 10px;
     }
-
+    .question-box {
+      font-size: 22px;
+      font-weight: bold;
+      line-height: 1.45;
+      text-align: center;
+      margin: 10px 0 18px;
+    }
     table {
       width: 100%;
       border-collapse: collapse;
       margin-top: 16px;
     }
-
     th, td {
       border: 1px solid #ddd;
       padding: 10px;
       text-align: center;
       font-size: 15px;
     }
-
     th {
       background: #f1f3f5;
     }
-
     .modal-backdrop {
       display: none;
       position: fixed;
@@ -200,7 +177,6 @@
       z-index: 9999;
       padding: 20px;
     }
-
     .modal-card {
       max-width: 420px;
       margin: 120px auto 0;
@@ -209,7 +185,6 @@
       padding: 20px;
       text-align: center;
     }
-
     .modal-title {
       font-size: 18px;
       font-weight: bold;
@@ -225,8 +200,7 @@
       <button id="startTestBtn" class="menu-btn">Teste Başla</button>
       <button id="showStatsBtn" class="menu-btn">Test Sonucu</button>
       <button id="showCompletedBtn" class="menu-btn">Tamamlananlar</button>
-      <button id="showReviewBtn" class="menu-btn">Tekrar</button>
-      <button id="clearAllBtn" class="danger-btn">Temizle</button>
+      <button id="showConnectorsBtn" class="menu-btn">Bağlaçlar</button>
     </div>
   </section>
 
@@ -260,42 +234,7 @@
       </div>
 
       <button id="addCompletedBtn" class="menu-btn">Tamamlanana Ekle</button>
-      <button id="addReviewBtn" class="menu-btn">Tekrara Ekle</button>
       <button id="testHomeBtn" class="menu-btn">Ana Menü</button>
-    </div>
-  </section>
-
-  <section id="reviewScreen" class="screen">
-    <div class="card">
-      <div id="reviewCount" class="small-count">0/0</div>
-
-      <div class="word-row">
-        <div id="reviewWord" class="word">word</div>
-        <button id="reviewSpeakBtn" class="speaker-btn" title="Telaffuz">🔊</button>
-      </div>
-
-      <div id="reviewChoices"></div>
-
-      <div class="icon-btn-row">
-        <button id="reviewHintBtn" class="icon-btn" title="İpucu">💡</button>
-      </div>
-
-      <div id="reviewHintBox" class="hint-box">
-        <div class="hint-title">İpucu</div>
-        <div id="reviewHintText"></div>
-        <img id="reviewHintImage" class="hint-image" src="" alt="İpucu görseli">
-      </div>
-
-      <div id="reviewStatus" class="status"></div>
-
-      <div class="nav-row">
-        <button id="reviewPrevBtn" class="nav-btn" title="Önceki">◀</button>
-        <div class="nav-spacer"></div>
-        <button id="reviewNextBtn" class="nav-btn" title="Sonraki">▶</button>
-      </div>
-
-      <button id="reviewAddCompletedBtn" class="menu-btn">Tamamlanana Ekle</button>
-      <button id="reviewHomeBtn" class="menu-btn">Ana Menü</button>
     </div>
   </section>
 
@@ -328,15 +267,35 @@
         <button id="completedNextBtn" class="nav-btn" title="Sonraki">▶</button>
       </div>
 
-      <button id="completedAddReviewBtn" class="menu-btn">Tekrara Ekle</button>
+      <button id="clearCompletedBtn" class="danger-btn">Temizle</button>
       <button id="completedHomeBtn" class="menu-btn">Ana Menü</button>
+    </div>
+  </section>
+
+  <section id="connectorsScreen" class="screen">
+    <div class="card">
+      <div id="connectorCount" class="small-count">0/0</div>
+      <div id="connectorType" class="small-count">Bağlaç Çalışması</div>
+
+      <div id="connectorQuestion" class="question-box">Soru</div>
+
+      <div id="connectorChoices"></div>
+
+      <div id="connectorStatus" class="status"></div>
+
+      <div class="nav-row">
+        <button id="connectorPrevBtn" class="nav-btn" title="Önceki">◀</button>
+        <div class="nav-spacer"></div>
+        <button id="connectorNextBtn" class="nav-btn" title="Sonraki">▶</button>
+      </div>
+
+      <button id="connectorsHomeBtn" class="menu-btn">Ana Menü</button>
     </div>
   </section>
 
   <section id="statsScreen" class="screen">
     <div class="card">
       <h2>Test Sonucu</h2>
-
       <table>
         <tr>
           <th>Toplam Kelime</th>
@@ -351,17 +310,16 @@
           <td id="statWrong">0</td>
         </tr>
       </table>
-
       <button id="resetStatsBtn" class="danger-btn">İstatistikleri Sıfırla</button>
       <button id="statsHomeBtn" class="menu-btn">Ana Menü</button>
     </div>
   </section>
 
-  <div id="clearModal" class="modal-backdrop">
+  <div id="clearCompletedModal" class="modal-backdrop">
     <div class="modal-card">
-      <div class="modal-title">Tüm tercihler silinsin mi?</div>
-      <button id="confirmClearBtn" class="danger-btn">Evet</button>
-      <button id="cancelClearBtn" class="menu-btn">Hayır</button>
+      <div class="modal-title">Tüm tamamlanan kelimeler silinsin mi?</div>
+      <button id="confirmClearCompletedBtn" class="danger-btn">Evet</button>
+      <button id="cancelClearCompletedBtn" class="menu-btn">Hayır</button>
     </div>
   </div>
 
@@ -377,7 +335,7 @@
       return "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(svg);
     }
 
-    const WORDS = [
+    const RAW_WORDS = [
       { en:"abandon", tr:"terk etmek", hint:"They had to abandon the old house.", d:["vazgeçmek","reddetmek"] },
       { en:"absorb", tr:"emmek, soğurmak", hint:"Plants absorb water through their roots.", d:["yaymak","sızdırmak"] },
       { en:"accept", tr:"kabul etmek", hint:"She accepted the job offer.", d:["reddetmek","ertelemek"] },
@@ -388,7 +346,6 @@
       { en:"analyze", tr:"analiz etmek", hint:"Scientists analyze the data carefully.", d:["gizlemek","ezberlemek"] },
       { en:"appear", tr:"görünmek", hint:"New problems appeared during the experiment.", d:["kaybolmak","azalmak"] },
       { en:"apply", tr:"uygulamak", hint:"You should apply this method.", d:["reddetmek","bozmak"] },
-
       { en:"approach", tr:"yaklaşım", hint:"This new approach may solve the problem.", d:["uzaklaşma","engel"] },
       { en:"argue", tr:"savunmak", hint:"Many experts argue that the plan is wrong.", d:["kanıtlamak","reddetmek"] },
       { en:"assume", tr:"varsaymak", hint:"We cannot assume that all people think alike.", d:["kanıtlamak","reddetmek"] },
@@ -399,7 +356,6 @@
       { en:"change", tr:"değişim", hint:"Climate change affects the world.", d:["istikrar","benzerlik"] },
       { en:"claim", tr:"iddia", hint:"The company claims it is safe.", d:["kanıt","itiraf"] },
       { en:"common", tr:"yaygın", hint:"This disease is common.", d:["nadir","zararlı"] },
-
       { en:"compare", tr:"karşılaştırmak", hint:"Researchers compared the results.", d:["birleştirmek","saklamak"] },
       { en:"concern", tr:"kaygı", hint:"Pollution is a serious concern.", d:["çözüm","ayrıntı"] },
       { en:"conduct", tr:"yürütmek", hint:"The team conducted a survey.", d:["iptal etmek","önlemek"] },
@@ -410,10 +366,9 @@
       { en:"contribute", tr:"katkıda bulunmak", hint:"Many factors contribute.", d:["engel olmak","itiraz etmek"] },
       { en:"control", tr:"kontrol etmek", hint:"They control inflation.", d:["arttırmak","serbest bırakmak"] },
       { en:"create", tr:"oluşturmak", hint:"Technology creates jobs.", d:["yıkmak","gizlemek"] },
-
       { en:"damage", tr:"zarar", hint:"The storm caused damage.", d:["onarım","fayda"] },
       { en:"data", tr:"veri", hint:"Researchers collected data.", d:["yorum","tahmin"] },
-      { en:"decline", tr:"azalma", hint:"There is a decline.", d:["artış","başlangıç"] },
+      { en:"decline", tr:"azalma / reddetmek", hint:"Sales declined.", d:["artış","kabul etmek"] },
       { en:"define", tr:"tanımlamak", hint:"It is hard to define success.", d:["karıştırmak","görmezden gelmek"] },
       { en:"demand", tr:"talep", hint:"Energy demand grows.", d:["arz","engel"] },
       { en:"depend", tr:"bağlı olmak", hint:"The result depends.", d:["ayrılmak","reddetmek"] },
@@ -421,7 +376,6 @@
       { en:"develop", tr:"geliştirmek", hint:"They developed a method.", d:["yavaşlatmak","reddetmek"] },
       { en:"difference", tr:"fark", hint:"There is a difference.", d:["benzerlik","yöntem"] },
       { en:"disease", tr:"hastalık", hint:"The disease spreads.", d:["tedavi","yaralanma"] },
-
       { en:"effect", tr:"etki", hint:"Stress has effects.", d:["neden","amaç"] },
       { en:"evidence", tr:"kanıt", hint:"Police found evidence.", d:["iddia","şüphe"] },
       { en:"exist", tr:"var olmak", hint:"Records exist.", d:["kaybolmak","değişmek"] },
@@ -432,7 +386,6 @@
       { en:"focus", tr:"odaklanmak", hint:"The study focuses on youth.", d:["kaçınmak","dağılmak"] },
       { en:"function", tr:"işlev", hint:"The heart functions as pump.", d:["zarar","engel"] },
       { en:"increase", tr:"artmak", hint:"Prices increased.", d:["azalmak","dengelemek"] },
-
       { en:"identify", tr:"belirlemek", hint:"Identify the main cause.", d:["gizlemek","reddetmek"] },
       { en:"improve", tr:"iyileştirmek", hint:"Practice improves skills.", d:["bozmak","azaltmak"] },
       { en:"include", tr:"içermek", hint:"The price includes dinner.", d:["hariç tutmak","reddetmek"] },
@@ -443,7 +396,6 @@
       { en:"involve", tr:"içermek", hint:"The job involves data.", d:["dışlamak","azaltmak"] },
       { en:"issue", tr:"konu", hint:"Climate is a global issue.", d:["çözüm","ayrıntı"] },
       { en:"knowledge", tr:"bilgi", hint:"Reading builds knowledge.", d:["şüphe","tahmin"] },
-
       { en:"lack", tr:"eksiklik", hint:"Lack of sleep reduces focus.", d:["bolluk","fazlalık"] },
       { en:"likely", tr:"olası", hint:"Rain is likely tomorrow.", d:["imkansız","zararlı"] },
       { en:"maintain", tr:"sürdürmek", hint:"Maintain a healthy life.", d:["bozmak","terk etmek"] },
@@ -454,7 +406,6 @@
       { en:"offer", tr:"teklif", hint:"The company offered help.", d:["reddetmek","engellemek"] },
       { en:"policy", tr:"politika", hint:"The policy changed.", d:["yöntem","teori"] },
       { en:"population", tr:"nüfus", hint:"Population increased rapidly.", d:["toprak","ekonomi"] },
-
       { en:"present", tr:"sunmak", hint:"Students present reports.", d:["saklamak","iptal etmek"] },
       { en:"prevent", tr:"önlemek", hint:"Vaccines prevent disease.", d:["neden olmak","arttırmak"] },
       { en:"process", tr:"süreç", hint:"Learning is a process.", d:["sonuç","kanıt"] },
@@ -465,7 +416,6 @@
       { en:"range", tr:"çeşitlilik", hint:"A wide range is available.", d:["neden","daralma"] },
       { en:"rate", tr:"oran", hint:"The rate fell.", d:["yöntem","ölçü"] },
       { en:"reduce", tr:"azaltmak", hint:"Reduce costs quickly.", d:["arttırmak","genişletmek"] },
-
       { en:"research", tr:"araştırma", hint:"Research shows new results.", d:["tahmin","yorum"] },
       { en:"resource", tr:"kaynak", hint:"Water is a resource.", d:["engel","sonuç"] },
       { en:"response", tr:"tepki", hint:"Quick response saved lives.", d:["neden","karar"] },
@@ -476,62 +426,26 @@
       { en:"similar", tr:"benzer", hint:"The two cases are similar.", d:["farklı","zararlı"] },
       { en:"source", tr:"kaynak", hint:"The river is the source.", d:["engel","neden"] },
       { en:"structure", tr:"yapı", hint:"Essay structure matters.", d:["amaç","etki"] },
-
       { en:"determine", tr:"belirlemek", hint:"Determine the real cause.", d:["gizlemek","reddetmek"] },
       { en:"establish", tr:"kurmak", hint:"They established a center.", d:["yıkmak","bozmak"] },
-      { en:"ensure", tr:"garanti etmek", hint:"Rules ensure safety.", d:["engellemek","zayıflatmak"] },
-      { en:"evaluate", tr:"değerlendirmek", hint:"Experts evaluated the plan.", d:["gizlemek","reddetmek"] },
+      { en:"ensure", tr:"garanti etmek", hint:"Ensure safety.", d:["engellemek","zayıflatmak"] },
+      { en:"evaluate", tr:"değerlendirmek", hint:"Evaluate the results.", d:["gizlemek","reddetmek"] },
       { en:"estimate", tr:"tahmin etmek", hint:"They estimated the cost.", d:["ölçmek","kanıtlamak"] },
-      { en:"exceed", tr:"aşmak", hint:"The cost may exceed the limit.", d:["azalmak","düşmek"] },
-      { en:"exclude", tr:"hariç tutmak", hint:"They excluded bad data.", d:["eklemek","dahil etmek"] },
-      { en:"expand", tr:"genişletmek", hint:"The company will expand.", d:["daraltmak","azaltmak"] },
-      { en:"expose", tr:"açığa çıkarmak", hint:"The report exposed problems.", d:["gizlemek","örtmek"] },
-      { en:"facilitate", tr:"kolaylaştırmak", hint:"Technology facilitates learning.", d:["zorlaştırmak","engellemek"] },
-
-      { en:"generate", tr:"üretmek", hint:"The system generates power.", d:["tüketmek","azaltmak"] },
-      { en:"implement", tr:"uygulamak", hint:"They implemented a policy.", d:["reddetmek","iptal etmek"] },
-      { en:"interpret", tr:"yorumlamak", hint:"Interpret the results carefully.", d:["gizlemek","reddetmek"] },
-      { en:"justify", tr:"haklı göstermek", hint:"Nothing justifies violence.", d:["eleştirmek","reddetmek"] },
-      { en:"obtain", tr:"elde etmek", hint:"She obtained the certificate.", d:["kaybetmek","reddetmek"] },
-      { en:"predict", tr:"tahmin etmek", hint:"Experts predict growth.", d:["engellemek","reddetmek"] },
-      { en:"promote", tr:"teşvik etmek", hint:"The campaign promotes health.", d:["engellemek","yasaklamak"] },
-      { en:"retain", tr:"korumak", hint:"It is hard to retain details.", d:["kaybetmek","bırakmak"] },
-      { en:"reveal", tr:"ortaya çıkarmak", hint:"The study revealed facts.", d:["gizlemek","örtmek"] },
-      { en:"shift", tr:"değişmek", hint:"Public opinion may shift.", d:["sabit kalmak","durmak"] },
-
-      { en:"strategy", tr:"strateji", hint:"They changed strategy.", d:["plan","engel"] },
-      { en:"trend", tr:"eğilim", hint:"This trend is common.", d:["alışkanlık","sonuç"] },
-      { en:"impact", tr:"etki", hint:"Climate has great impact.", d:["neden","amaç"] },
-      { en:"beneficial", tr:"yararlı", hint:"Exercise is beneficial.", d:["zararlı","gereksiz"] },
-      { en:"efficient", tr:"verimli", hint:"This machine is efficient.", d:["yavaş","zararlı"] },
-      { en:"reliable", tr:"güvenilir", hint:"The source is reliable.", d:["yanlış","zayıf"] },
-      { en:"relevant", tr:"ilgili", hint:"Give relevant information.", d:["alakasız","gereksiz"] },
-      { en:"temporary", tr:"geçici", hint:"This is temporary.", d:["kalıcı","zor"] },
-      { en:"previous", tr:"önceki", hint:"Previous studies support it.", d:["sonraki","gelecek"] },
-      { en:"initial", tr:"ilk", hint:"Initial results were good.", d:["son","orta"] },
-
-      { en:"access", tr:"erişim", hint:"Students need access.", d:["engel","yöntem"] },
-      { en:"accurate", tr:"doğru", hint:"The results are accurate.", d:["yanlış","zayıf"] },
-      { en:"acquire", tr:"edinmek", hint:"Children acquire language.", d:["kaybetmek","reddetmek"] },
-      { en:"additional", tr:"ek", hint:"Additional support is needed.", d:["önceki","az"] },
-      { en:"adequate", tr:"yeterli", hint:"Food is adequate.", d:["yetersiz","az"] },
-      { en:"adjust", tr:"ayarlamak", hint:"Adjust the settings.", d:["bozmak","kaldırmak"] },
-      { en:"administration", tr:"yönetim", hint:"The administration decided.", d:["plan","sistem"] },
-      { en:"admit", tr:"kabul etmek", hint:"He admitted the mistake.", d:["reddetmek","saklamak"] },
-      { en:"adopt", tr:"benimsemek", hint:"They adopted a new rule.", d:["reddetmek","iptal etmek"] },
-      { en:"advance", tr:"ilerleme", hint:"Science made advances.", d:["gerileme","engel"] },
-
-      { en:"advantage", tr:"avantaj", hint:"This has many advantages.", d:["dezavantaj","engel"] },
-      { en:"annual", tr:"yıllık", hint:"The annual report is ready.", d:["aylık","günlük"] },
-      { en:"assess", tr:"değerlendirmek", hint:"Experts assess the risk.", d:["gizlemek","reddetmek"] },
-      { en:"assign", tr:"atamak", hint:"The teacher assigned homework.", d:["iptal etmek","reddetmek"] },
-      { en:"assist", tr:"yardım etmek", hint:"Nurses assist doctors.", d:["engellemek","reddetmek"] },
-      { en:"authority", tr:"yetki", hint:"The authority approved it.", d:["engel","karar"] },
-      { en:"available", tr:"mevcut", hint:"The service is available.", d:["yok","zor"] },
-      { en:"aware", tr:"farkında", hint:"People are aware of risks.", d:["habersiz","uzak"] },
-      { en:"capacity", tr:"kapasite", hint:"The room capacity is 200.", d:["engel","sınır"] },
-      { en:"category", tr:"kategori", hint:"Books are in categories.", d:["yöntem","teori"] },
-      { en:"allocate", tr:"tahsis etmek", hint:"Funds are allocated to education.", d:["dağıtmak","saklamak"] },
+      { en:"exceed", tr:"aşmak", hint:"Costs exceed limits.", d:["azalmak","düşmek"] },
+      { en:"exclude", tr:"hariç tutmak", hint:"They excluded data.", d:["eklemek","dahil etmek"] },
+      { en:"expand", tr:"genişletmek", hint:"Expand the system.", d:["daraltmak","azaltmak"] },
+      { en:"expose", tr:"ortaya çıkarmak", hint:"Expose the truth.", d:["gizlemek","örtmek"] },
+      { en:"facilitate", tr:"kolaylaştırmak", hint:"Technology facilitates work.", d:["zorlaştırmak","engellemek"] },
+      { en:"generate", tr:"üretmek", hint:"Generate energy.", d:["tüketmek","azaltmak"] },
+      { en:"implement", tr:"uygulamak", hint:"Implement a plan.", d:["reddetmek","iptal etmek"] },
+      { en:"interpret", tr:"yorumlamak", hint:"Interpret results.", d:["gizlemek","reddetmek"] },
+      { en:"justify", tr:"haklı göstermek", hint:"Nothing justifies this.", d:["eleştirmek","reddetmek"] },
+      { en:"obtain", tr:"elde etmek", hint:"Obtain information.", d:["kaybetmek","reddetmek"] },
+      { en:"predict", tr:"tahmin etmek", hint:"Predict the outcome.", d:["engellemek","reddetmek"] },
+      { en:"promote", tr:"teşvik etmek", hint:"Promote healthy life.", d:["engellemek","yasaklamak"] },
+      { en:"retain", tr:"korumak", hint:"Retain information.", d:["kaybetmek","bırakmak"] },
+      { en:"reveal", tr:"ortaya çıkarmak", hint:"Reveal the truth.", d:["gizlemek","örtmek"] },
+      { en:"shift", tr:"değişmek", hint:"Trends shift.", d:["sabit kalmak","durmak"] },
 
       { en:"device", tr:"cihaz", type:"object", img:makeEmojiImage("📱"), d:["yöntem","sistem"] },
       { en:"tool", tr:"alet", type:"object", img:makeEmojiImage("🔧"), d:["makine","parça"] },
@@ -544,356 +458,155 @@
       { en:"bridge", tr:"köprü", type:"object", img:makeEmojiImage("🌉"), d:["yol","tünel"] },
       { en:"engine", tr:"motor", type:"object", img:makeEmojiImage("🚂"), d:["araç","yakıt"] },
 
-      { en:"allocate", tr:"tahsis etmek", hint:"Funds are allocated to education.", d:["dağıtmak","saklamak"] },
-      { en:"alter", tr:"değiştirmek", hint:"They altered the plan.", d:["korumak","reddetmek"] },
-      { en:"anticipate", tr:"öngörmek", hint:"Experts anticipate problems.", d:["engellemek","reddetmek"] },
-      { en:"apparent", tr:"açık, belirgin", hint:"The reason is apparent.", d:["gizli","karmaşık"] },
+      { en:"allocate", tr:"tahsis etmek", hint:"Funds are allocated carefully.", d:["dağıtmak","saklamak"] },
+      { en:"alter", tr:"değiştirmek", hint:"They altered the system.", d:["korumak","reddetmek"] },
+      { en:"anticipate", tr:"öngörmek", hint:"We anticipate problems.", d:["engellemek","reddetmek"] },
       { en:"approximate", tr:"yaklaşık", hint:"The cost is approximate.", d:["kesin","yanlış"] },
-      { en:"arise", tr:"ortaya çıkmak", hint:"Problems may arise.", d:["kaybolmak","azalmak"] },
-      { en:"assumption", tr:"varsayım", hint:"This is just an assumption.", d:["kanıt","sonuç"] },
-      { en:"attach", tr:"eklemek", hint:"Attach the file.", d:["silmek","reddetmek"] },
+      { en:"arise", tr:"ortaya çıkmak", hint:"New issues arise daily.", d:["kaybolmak","azalmak"] },
+      { en:"attach", tr:"eklemek / iliştirmek", hint:"Attach the file.", d:["silmek","reddetmek"] },
       { en:"attain", tr:"ulaşmak", hint:"He attained success.", d:["kaybetmek","reddetmek"] },
-      { en:"attribute", tr:"özellik", hint:"Honesty is a good attribute.", d:["kusur","engel"] },
+      { en:"bias", tr:"önyargı", hint:"Avoid bias in research.", d:["tarafsızlık","kanıt"] },
+      { en:"brief", tr:"kısa", hint:"Give a brief answer.", d:["uzun","detaylı"] },
+      { en:"cease", tr:"durmak / sona ermek", hint:"The noise ceased.", d:["başlamak","artmak"] },
+      { en:"clarify", tr:"açıklığa kavuşturmak", hint:"Clarify your idea.", d:["karıştırmak","gizlemek"] },
+      { en:"coherent", tr:"tutarlı", hint:"The argument is coherent.", d:["karmaşık","dağınık"] },
+      { en:"coincide", tr:"çakışmak", hint:"Dates coincide.", d:["ayrılmak","bozulmak"] },
+      { en:"collapse", tr:"çöküş / çökmek", hint:"The system collapsed.", d:["yükselmek","gelişmek"] },
+      { en:"compile", tr:"derlemek", hint:"They compiled data.", d:["dağıtmak","silmek"] },
+      { en:"complement", tr:"tamamlamak", hint:"Ideas complement each other.", d:["engellemek","reddetmek"] },
+      { en:"component", tr:"bileşen", hint:"Each component matters.", d:["sonuç","amaç"] },
+      { en:"comprise", tr:"oluşmak / içermek", hint:"The group comprises many people.", d:["dağıtmak","reddetmek"] },
+      { en:"conceive", tr:"tasarlamak", hint:"He conceived a plan.", d:["reddetmek","unutmak"] },
+      { en:"conform", tr:"uymak", hint:"You must conform to rules.", d:["karşı çıkmak","reddetmek"] },
+      { en:"consent", tr:"onay", hint:"They gave consent.", d:["itiraz","engel"] },
+      { en:"constrain", tr:"sınırlamak", hint:"Rules constrain behavior.", d:["serbest bırakmak","arttırmak"] },
+      { en:"consult", tr:"danışmak", hint:"Consult a doctor.", d:["reddetmek","engellemek"] },
+      { en:"contemporary", tr:"çağdaş", hint:"Contemporary issues matter.", d:["eski","geçmiş"] },
+      { en:"contrary", tr:"aksine", hint:"On the contrary.", d:["benzer","aynı"] },
+      { en:"controversy", tr:"tartışma", hint:"The topic caused controversy.", d:["uyum","sessizlik"] },
+      { en:"convert", tr:"dönüştürmek", hint:"Convert the data.", d:["saklamak","reddetmek"] },
+      { en:"convince", tr:"ikna etmek", hint:"He convinced me.", d:["reddetmek","engellemek"] },
+      { en:"core", tr:"temel / çekirdek", hint:"This is the core idea.", d:["dış","kenar"] },
+      { en:"corporate", tr:"kurumsal", hint:"Corporate rules apply.", d:["bireysel","kişisel"] },
+      { en:"correspond", tr:"uyuşmak", hint:"The results correspond.", d:["çelişmek","reddetmek"] },
+      { en:"couple", tr:"birkaç", hint:"A couple of examples.", d:["çok","az"] },
+      { en:"crucial", tr:"çok önemli", hint:"This is crucial.", d:["önemsiz","gereksiz"] },
+      { en:"currency", tr:"para birimi", hint:"The currency lost value.", d:["ürün","hizmet"] },
+      { en:"cycle", tr:"döngü", hint:"Water cycle continues.", d:["durum","sonuç"] },
+      { en:"demonstrate", tr:"göstermek / kanıtlamak", hint:"Results demonstrate success.", d:["gizlemek","reddetmek"] },
+      { en:"deny", tr:"reddetmek", hint:"He denied the claim.", d:["kabul etmek","desteklemek"] },
+      { en:"derive", tr:"elde etmek", hint:"Results are derived from data.", d:["kaybetmek","reddetmek"] },
+      { en:"distribute", tr:"dağıtmak", hint:"They distributed food.", d:["toplamak","saklamak"] },
+      { en:"domestic", tr:"yerel / evsel", hint:"Domestic products increased.", d:["yabancı","global"] },
+      { en:"eliminate", tr:"ortadan kaldırmak", hint:"Eliminate errors.", d:["eklemek","arttırmak"] },
+      { en:"emerge", tr:"ortaya çıkmak", hint:"New ideas emerge.", d:["kaybolmak","azalmak"] },
+      { en:"emphasize", tr:"vurgulamak", hint:"He emphasized the point.", d:["gizlemek","reddetmek"] },
+      { en:"enable", tr:"olanak sağlamak", hint:"Technology enables growth.", d:["engellemek","yasaklamak"] },
+      { en:"encounter", tr:"karşılaşmak", hint:"They encountered problems.", d:["kaçınmak","önlemek"] },
+      { en:"enhance", tr:"arttırmak / geliştirmek", hint:"Enhance performance.", d:["azaltmak","bozmak"] },
 
-{ en:"acknowledge", tr:"kabul etmek / doğrulamak", hint:"She acknowledged her mistake.", d:["reddetmek","gizlemek"] },
-{ en:"administer", tr:"yönetmek / uygulamak", hint:"The system is administered carefully.", d:["iptal etmek","engellemek"] },
-{ en:"advocate", tr:"savunmak", hint:"Experts advocate new policies.", d:["reddetmek","yasaklamak"] },
-{ en:"aggregate", tr:"toplamak / bütün", hint:"The data were shown in aggregate.", d:["ayrıntı","eksiklik"] },
-{ en:"aid", tr:"yardım", hint:"They sent medical aid.", d:["engel","zarar"] },
-{ en:"alter", tr:"değiştirmek", hint:"They altered the design.", d:["korumak","reddetmek"] },
-{ en:"alternative", tr:"alternatif", hint:"We need an alternative plan.", d:["tek","zorunlu"] },
-{ en:"amend", tr:"düzeltmek / değiştirmek", hint:"The law was amended.", d:["korumak","reddetmek"] },
+      { en:"abundant", tr:"bol", hint:"The region has abundant natural resources.", d:["kıt","zayıf"] },
+      { en:"accommodate", tr:"barındırmak / uyum sağlamak", hint:"The hall can accommodate 500 people.", d:["reddetmek","engellemek"] },
+      { en:"accompany", tr:"eşlik etmek", hint:"Parents accompanied the children.", d:["terk etmek","engellemek"] },
+      { en:"accomplish", tr:"başarmak / tamamlamak", hint:"She accomplished all her goals.", d:["ertelemek","reddetmek"] },
+      { en:"accurate", tr:"doğru / isabetli", hint:"The measurements were accurate.", d:["yanlış","eksik"] },
+      { en:"adaptation", tr:"uyum", hint:"Adaptation is necessary in a changing world.", d:["direnç","engel"] },
+      { en:"adverse", tr:"olumsuz", hint:"The medicine had adverse effects.", d:["olumlu","yararlı"] },
+      { en:"advancement", tr:"ilerleme", hint:"Technology has shown rapid advancement.", d:["gerileme","duraklama"] },
+      { en:"affordable", tr:"karşılanabilir / uygun fiyatlı", hint:"Housing is no longer affordable.", d:["pahalı","gereksiz"] },
+      { en:"agriculture", tr:"tarım", hint:"Agriculture remains important in the region.", d:["sanayi","ticaret"] },
+      { en:"alarm", tr:"alarm", type:"object", img:makeEmojiImage("⏰"), d:["saat","zil"] },
+      { en:"align", tr:"hizalamak / uyumlu hale getirmek", hint:"The goals should align with the policy.", d:["karıştırmak","bozmak"] },
+      { en:"ambition", tr:"hırs / amaç", hint:"Her ambition is to become a scientist.", d:["korku","engel"] },
+      { en:"amend", tr:"değiştirmek / düzeltmek", hint:"The law was amended last year.", d:["korumak","reddetmek"] },
+      { en:"analogy", tr:"benzetme", hint:"The teacher used an analogy to explain the idea.", d:["kanıt","itiraz"] },
+      { en:"ancestor", tr:"ata", hint:"People often want to learn about their ancestors.", d:["torun","akraba"] },
+      { en:"annually", tr:"yıllık olarak", hint:"The report is published annually.", d:["günlük olarak","nadiren"] },
+      { en:"apology", tr:"özür", hint:"He offered an apology for the mistake.", d:["itiraz","teşekkür"] },
+      { en:"applicable", tr:"uygulanabilir", hint:"This rule is applicable to all students.", d:["geçersiz","belirsiz"] },
+      { en:"appoint", tr:"atamak", hint:"They appointed a new manager.", d:["göndermek","reddetmek"] },
+      { en:"archive", tr:"arşiv", type:"object", img:makeEmojiImage("🗄️"), d:["dosya","belge"] },
+      { en:"artificial", tr:"yapay", hint:"Artificial materials were used in the experiment.", d:["doğal","gerçek"] },
+      { en:"assemble", tr:"birleştirmek / toplamak", hint:"Workers assembled the parts quickly.", d:["dağıtmak","kırmak"] },
+      { en:"asset", tr:"varlık / değer", hint:"Education is a valuable asset.", d:["borç","engel"] },
+      { en:"astonishing", tr:"şaşırtıcı", hint:"The results were astonishing.", d:["sıradan","beklenen"] },
+      { en:"atmosphere", tr:"atmosfer / ortam", hint:"The classroom atmosphere was positive.", d:["iklim","engel"] },
+      { en:"attendance", tr:"katılım", hint:"Attendance was low yesterday.", d:["yokluk","engel"] },
+      { en:"authentic", tr:"gerçek / özgün", hint:"The document appears authentic.", d:["sahte","geçici"] },
+      { en:"autonomy", tr:"özerklik", hint:"Universities need greater autonomy.", d:["bağımlılık","zorunluluk"] },
+      { en:"barely", tr:"zar zor", hint:"He could barely hear the speaker.", d:["kolayca","hemen"] },
+      { en:"barrel", tr:"varil", type:"object", img:makeEmojiImage("🛢️"), d:["kutu","şişe"] },
+      { en:"beast", tr:"vahşi hayvan", hint:"The villagers were afraid of the beast.", d:["evcil hayvan","kuş"] },
+      { en:"behave", tr:"davranmak", hint:"Children should behave politely.", d:["kaçınmak","reddetmek"] },
+      { en:"beneath", tr:"altında", hint:"The keys were beneath the chair.", d:["üstünde","yanında"] },
+      { en:"biology", tr:"biyoloji", hint:"She studies biology at university.", d:["kimya","fizik"] },
+      { en:"blame", tr:"suçlamak", hint:"They blamed the weather for the delay.", d:["övmek","onaylamak"] },
+      { en:"blend", tr:"karıştırmak / harmanlamak", hint:"Traditional and modern styles blend here.", d:["ayırmak","reddetmek"] },
+      { en:"bold", tr:"cesur / belirgin", hint:"It was a bold decision.", d:["çekingen","zayıf"] },
+      { en:"boost", tr:"artırmak / desteklemek", hint:"The campaign boosted sales.", d:["azaltmak","engellemek"] },
+      { en:"boundary", tr:"sınır", hint:"The river forms a natural boundary.", d:["merkez","bölge"] },
+      { en:"branch", tr:"dal / şube", hint:"The bank opened a new branch.", d:["kök","yaprak"] },
+      { en:"burden", tr:"yük", hint:"High taxes are a burden for many families.", d:["kolaylık","fırsat"] },
+      { en:"cabinet", tr:"dolap / kabine", type:"object", img:makeEmojiImage("🗄️"), d:["masa","raf"] },
+      { en:"calculate", tr:"hesaplamak", hint:"Scientists calculated the distance.", d:["tahmin etmek","unutmak"] },
+      { en:"candidate", tr:"aday", hint:"Each candidate gave a speech.", d:["seçmen","yönetici"] },
+      { en:"capability", tr:"yetenek / kapasite", hint:"The machine has limited capability.", d:["engel","zayıflık"] },
+      { en:"capture", tr:"yakalamak / ele geçirmek", hint:"The camera captured the moment.", d:["kaçırmak","bırakmak"] },
+      { en:"cargo", tr:"yük", hint:"The ship carried valuable cargo.", d:["yolcu","araç"] }
+    ];
 
-{ en:"amount", tr:"miktar", hint:"A large amount of water.", d:["kalite","sebep"] },
-{ en:"anticipate", tr:"öngörmek", hint:"We anticipate problems.", d:["engellemek","reddetmek"] },
-{ en:"apparent", tr:"açık / belirgin", hint:"The difference is apparent.", d:["gizli","karmaşık"] },
-{ en:"appreciate", tr:"takdir etmek", hint:"I appreciate your help.", d:["reddetmek","görmezden gelmek"] },
-{ en:"approval", tr:"onay", hint:"The plan got approval.", d:["itiraz","engel"] },
-{ en:"arbitrary", tr:"keyfi", hint:"The rule seems arbitrary.", d:["mantıklı","bilimsel"] },
-{ en:"aspect", tr:"yön / boyut", hint:"Consider every aspect.", d:["sonuç","engel"] },
-{ en:"assign", tr:"atamak / vermek", hint:"The teacher assigned homework.", d:["iptal etmek","reddetmek"] },
-{ en:"assure", tr:"temin etmek / güvence vermek", hint:"He assured us.", d:["şüphe etmek","reddetmek"] },
-{ en:"attitude", tr:"tutum", hint:"His attitude changed.", d:["başarı","ölçü"] },
+    const WORDS = [];
+    const SEEN_WORDS = new Set();
+    for (const word of RAW_WORDS) {
+      const key = (word.en || "").trim().toLowerCase();
+      if (!key) continue;
+      if (SEEN_WORDS.has(key)) continue;
+      SEEN_WORDS.add(key);
+      WORDS.push(word);
+    }
 
-{ en:"authorize", tr:"yetki vermek", hint:"Only managers authorize this.", d:["yasaklamak","reddetmek"] },
-{ en:"aware", tr:"farkında", hint:"People are aware of risks.", d:["habersiz","uzak"] },
-{ en:"benefit", tr:"fayda / yarar sağlamak", hint:"Exercise benefits health.", d:["zarar","engel"] },
-{ en:"brief", tr:"kısa", hint:"Give a brief answer.", d:["uzun","detaylı"] },
-{ en:"bulk", tr:"büyük miktar", hint:"They bought in bulk.", d:["az","küçük"] },
-{ en:"cease", tr:"durmak / sona ermek", hint:"The noise ceased.", d:["başlamak","artmak"] },
-{ en:"clarify", tr:"açıklamak", hint:"Clarify your idea.", d:["karıştırmak","gizlemek"] },
-{ en:"coherent", tr:"tutarlı", hint:"The argument is coherent.", d:["karmaşık","dağınık"] },
-{ en:"coincide", tr:"çakışmak", hint:"Dates coincide.", d:["ayrılmak","bozulmak"] },
-{ en:"collapse", tr:"çöküş / çökmek", hint:"The system collapsed.", d:["yükselmek","gelişmek"] },
+    const CONNECTORS = [
+      { type:"fill", typeLabel:"Boşluk Doldurma", q:"He was tired; ______, he continued working.", options:["however","therefore","because"], answer:"however" },
+      { type:"fill", typeLabel:"Boşluk Doldurma", q:"The roads were icy; ______, schools were closed.", options:["therefore","however","although"], answer:"therefore" },
+      { type:"fill", typeLabel:"Boşluk Doldurma", q:"______ it was raining, they went out.", options:["Although","Therefore","Moreover"], answer:"Although" },
+      { type:"fill", typeLabel:"Boşluk Doldurma", q:"The experiment failed ______ the temperature was too low.", options:["because","however","therefore"], answer:"because" },
+      { type:"fill", typeLabel:"Boşluk Doldurma", q:"The plan is expensive; ______, it is effective.", options:["nevertheless","because","for example"], answer:"nevertheless" },
+      { type:"fill", typeLabel:"Boşluk Doldurma", q:"She is smart; ______, she is hardworking.", options:["moreover","whereas","unless"], answer:"moreover" },
 
-{ en:"colleague", tr:"meslektaş", hint:"She is my colleague.", d:["arkadaş","yönetici"] },
-{ en:"compile", tr:"derlemek", hint:"They compiled data.", d:["dağıtmak","silmek"] },
-{ en:"complement", tr:"tamamlamak", hint:"Ideas complement each other.", d:["engellemek","reddetmek"] },
-{ en:"complex", tr:"karmaşık", hint:"The system is complex.", d:["basit","kolay"] },
-{ en:"component", tr:"bileşen", hint:"Each component matters.", d:["sonuç","amaç"] },
-{ en:"comprise", tr:"oluşmak / içermek", hint:"The group comprises 10 people.", d:["dağıtmak","reddetmek"] },
-{ en:"conceive", tr:"tasarlamak", hint:"He conceived a plan.", d:["reddetmek","unutmak"] },
-{ en:"conclude", tr:"sonuç çıkarmak", hint:"They concluded the study.", d:["başlatmak","reddetmek"] },
-{ en:"conflict", tr:"çatışma", hint:"There is a conflict.", d:["uyum","denge"] },
-{ en:"conform", tr:"uymak", hint:"You must conform.", d:["karşı çıkmak","reddetmek"] },
+      { type:"meaning", typeLabel:"Anlam", q:"however", options:["ancak / buna rağmen","bu yüzden","örneğin"], answer:"ancak / buna rağmen" },
+      { type:"meaning", typeLabel:"Anlam", q:"therefore", options:["bu yüzden / dolayısıyla","ancak","oysa"], answer:"bu yüzden / dolayısıyla" },
+      { type:"meaning", typeLabel:"Anlam", q:"although", options:["-e rağmen / her ne kadar","çünkü","örneğin"], answer:"-e rağmen / her ne kadar" },
+      { type:"meaning", typeLabel:"Anlam", q:"moreover", options:["ayrıca / bunun yanı sıra","bu yüzden","oysa"], answer:"ayrıca / bunun yanı sıra" },
+      { type:"meaning", typeLabel:"Anlam", q:"whereas", options:["oysa / halbuki","çünkü","dolayısıyla"], answer:"oysa / halbuki" },
+      { type:"meaning", typeLabel:"Anlam", q:"unless", options:["...medikçe / olmadıkça","çünkü","ayrıca"], answer:"...medikçe / olmadıkça" },
 
-{ en:"consent", tr:"onay", hint:"They gave consent.", d:["itiraz","engel"] },
-{ en:"considerable", tr:"önemli / büyük", hint:"Considerable risk exists.", d:["az","küçük"] },
-{ en:"constant", tr:"sabit", hint:"Temperature is constant.", d:["değişken","artış"] },
-{ en:"constrain", tr:"sınırlamak", hint:"Rules constrain actions.", d:["serbest bırakmak","arttırmak"] },
-{ en:"consult", tr:"danışmak", hint:"Consult a doctor.", d:["reddetmek","engellemek"] },
-{ en:"contact", tr:"temas / iletişim", hint:"Keep in contact.", d:["uzaklık","engel"] },
-{ en:"contemporary", tr:"çağdaş", hint:"Contemporary issues.", d:["eski","geçmiş"] },
-{ en:"contrary", tr:"aksine", hint:"On the contrary.", d:["benzer","aynı"] },
-{ en:"controversy", tr:"tartışma", hint:"It caused controversy.", d:["uyum","sessizlik"] },
-{ en:"convert", tr:"dönüştürmek", hint:"Convert data.", d:["saklamak","reddetmek"] },
-
-{ en:"convince", tr:"ikna etmek", hint:"He convinced me.", d:["reddetmek","engellemek"] },
-{ en:"core", tr:"çekirdek / temel", hint:"This is the core idea.", d:["dış","kenar"] },
-{ en:"corporate", tr:"kurumsal", hint:"Corporate rules.", d:["bireysel","kişisel"] },
-{ en:"correspond", tr:"uyuşmak", hint:"Results correspond.", d:["çelişmek","reddetmek"] },
-{ en:"couple", tr:"birkaç", hint:"A couple of days.", d:["çok","az"] },
-{ en:"crucial", tr:"çok önemli", hint:"This is crucial.", d:["önemsiz","gereksiz"] },
-{ en:"currency", tr:"para birimi", hint:"Currency value fell.", d:["ürün","hizmet"] },
-{ en:"cycle", tr:"döngü", hint:"Water cycle.", d:["durum","sonuç"] },
-{ en:"decline", tr:"azalmak / reddetmek", hint:"Sales declined.", d:["artmak","kabul etmek"] },
-{ en:"define", tr:"tanımlamak", hint:"Define the term.", d:["karıştırmak","gizlemek"] },
-
-{ en:"demonstrate", tr:"göstermek / kanıtlamak", hint:"The results demonstrate success.", d:["gizlemek","reddetmek"] },
-{ en:"deny", tr:"reddetmek", hint:"He denied the claim.", d:["kabul etmek","desteklemek"] },
-{ en:"derive", tr:"elde etmek", hint:"Results derived from data.", d:["kaybetmek","reddetmek"] },
-{ en:"distribute", tr:"dağıtmak", hint:"They distributed food.", d:["toplamak","saklamak"] },
-{ en:"domestic", tr:"yerel / evsel", hint:"Domestic products.", d:["yabancı","global"] },
-{ en:"eliminate", tr:"ortadan kaldırmak", hint:"Eliminate errors.", d:["eklemek","arttırmak"] },
-{ en:"emerge", tr:"ortaya çıkmak", hint:"New ideas emerge.", d:["kaybolmak","azalmak"] },
-{ en:"emphasize", tr:"vurgulamak", hint:"He emphasized the importance.", d:["gizlemek","reddetmek"] },
-{ en:"enable", tr:"olanak sağlamak", hint:"Technology enables growth.", d:["engellemek","yasaklamak"] },
-{ en:"encounter", tr:"karşılaşmak", hint:"They encountered problems.", d:["kaçınmak","önlemek"] },
-
-{ en:"enhance", tr:"arttırmak / geliştirmek", hint:"Enhance performance.", d:["azaltmak","bozmak"] },
-{ en:"ensure", tr:"garanti etmek", hint:"Ensure safety.", d:["engellemek","zayıflatmak"] },
-{ en:"estimate", tr:"tahmin etmek", hint:"They estimated the cost.", d:["ölçmek","kanıtlamak"] },
-{ en:"evaluate", tr:"değerlendirmek", hint:"Evaluate the results.", d:["gizlemek","reddetmek"] },
-{ en:"evolve", tr:"gelişmek", hint:"Species evolve.", d:["durmak","bozulmak"] },
-{ en:"exceed", tr:"aşmak", hint:"Costs exceed limits.", d:["azalmak","düşmek"] },
-{ en:"exclude", tr:"hariç tutmak", hint:"They excluded data.", d:["eklemek","dahil etmek"] },
-{ en:"expand", tr:"genişletmek", hint:"Expand the system.", d:["daraltmak","azaltmak"] },
-{ en:"expose", tr:"ortaya çıkarmak", hint:"Expose the truth.", d:["gizlemek","örtmek"] },
-{ en:"facilitate", tr:"kolaylaştırmak", hint:"Technology facilitates work.", d:["zorlaştırmak","engellemek"] },
-
-{ en:"generate", tr:"üretmek", hint:"Generate energy.", d:["tüketmek","azaltmak"] },
-{ en:"implement", tr:"uygulamak", hint:"Implement a plan.", d:["reddetmek","iptal etmek"] },
-{ en:"interpret", tr:"yorumlamak", hint:"Interpret results.", d:["gizlemek","reddetmek"] },
-{ en:"justify", tr:"haklı göstermek", hint:"Nothing justifies this.", d:["eleştirmek","reddetmek"] },
-{ en:"obtain", tr:"elde etmek", hint:"Obtain information.", d:["kaybetmek","reddetmek"] },
-{ en:"predict", tr:"tahmin etmek", hint:"Predict the outcome.", d:["engellemek","reddetmek"] },
-{ en:"promote", tr:"teşvik etmek", hint:"Promote healthy life.", d:["engellemek","yasaklamak"] },
-{ en:"retain", tr:"korumak", hint:"Retain information.", d:["kaybetmek","bırakmak"] },
-{ en:"reveal", tr:"ortaya çıkarmak", hint:"Reveal the truth.", d:["gizlemek","örtmek"] },
-{ en:"shift", tr:"değişmek", hint:"Trends shift.", d:["sabit kalmak","durmak"] },
-
-{ en:"battery", tr:"pil", type:"object", img:makeEmojiImage("🔋"), d:["ekran","kablo"] },
-{ en:"keyboard", tr:"klavye", type:"object", img:makeEmojiImage("⌨️"), d:["fare","ekran"] },
-{ en:"screen", tr:"ekran", type:"object", img:makeEmojiImage("🖥️"), d:["klavye","kasa"] },
-{ en:"chair", tr:"sandalye", type:"object", img:makeEmojiImage("🪑"), d:["masa","kapı"] },
-{ en:"bottle", tr:"şişe", type:"object", img:makeEmojiImage("🧴"), d:["bardak","kapak"] },
-
-		{ en:"adjust", tr:"ayarlamak / uyarlamak", hint:"You should adjust your plan.", d:["reddetmek","bozmak"] },
-{ en:"allocate", tr:"tahsis etmek", hint:"Funds are allocated carefully.", d:["dağıtmak","saklamak"] },
-{ en:"alter", tr:"değiştirmek", hint:"They altered the system.", d:["korumak","reddetmek"] },
-{ en:"anticipate", tr:"öngörmek", hint:"We anticipate problems.", d:["engellemek","reddetmek"] },
-{ en:"approximate", tr:"yaklaşık", hint:"The cost is approximate.", d:["kesin","yanlış"] },
-{ en:"arise", tr:"ortaya çıkmak", hint:"New issues arise daily.", d:["kaybolmak","azalmak"] },
-{ en:"attach", tr:"eklemek / iliştirmek", hint:"Attach the file.", d:["silmek","reddetmek"] },
-{ en:"attain", tr:"ulaşmak", hint:"He attained success.", d:["kaybetmek","reddetmek"] },
-{ en:"bias", tr:"önyargı", hint:"Avoid bias in research.", d:["tarafsızlık","kanıt"] },
-{ en:"brief", tr:"kısa", hint:"Give a brief answer.", d:["uzun","detaylı"] },
-
-{ en:"cease", tr:"durmak / sona ermek", hint:"The noise ceased.", d:["başlamak","artmak"] },
-{ en:"clarify", tr:"açıklığa kavuşturmak", hint:"Clarify your idea.", d:["karıştırmak","gizlemek"] },
-{ en:"coherent", tr:"tutarlı", hint:"The argument is coherent.", d:["karmaşık","dağınık"] },
-{ en:"coincide", tr:"çakışmak", hint:"Dates coincide.", d:["ayrılmak","bozulmak"] },
-{ en:"collapse", tr:"çöküş / çökmek", hint:"The system collapsed.", d:["yükselmek","gelişmek"] },
-{ en:"compile", tr:"derlemek", hint:"They compiled data.", d:["dağıtmak","silmek"] },
-{ en:"complement", tr:"tamamlamak", hint:"Ideas complement each other.", d:["engellemek","reddetmek"] },
-{ en:"component", tr:"bileşen", hint:"Each component matters.", d:["sonuç","amaç"] },
-{ en:"comprise", tr:"oluşmak / içermek", hint:"The group comprises many people.", d:["dağıtmak","reddetmek"] },
-{ en:"conceive", tr:"tasarlamak", hint:"He conceived a plan.", d:["reddetmek","unutmak"] },
-
-{ en:"conform", tr:"uymak", hint:"You must conform to rules.", d:["karşı çıkmak","reddetmek"] },
-{ en:"consent", tr:"onay", hint:"They gave consent.", d:["itiraz","engel"] },
-{ en:"constrain", tr:"sınırlamak", hint:"Rules constrain behavior.", d:["serbest bırakmak","arttırmak"] },
-{ en:"consult", tr:"danışmak", hint:"Consult a doctor.", d:["reddetmek","engellemek"] },
-{ en:"contemporary", tr:"çağdaş", hint:"Contemporary issues matter.", d:["eski","geçmiş"] },
-{ en:"contrary", tr:"aksine", hint:"On the contrary.", d:["benzer","aynı"] },
-{ en:"controversy", tr:"tartışma", hint:"The topic caused controversy.", d:["uyum","sessizlik"] },
-{ en:"convert", tr:"dönüştürmek", hint:"Convert the data.", d:["saklamak","reddetmek"] },
-{ en:"convince", tr:"ikna etmek", hint:"He convinced me.", d:["reddetmek","engellemek"] },
-{ en:"core", tr:"temel / çekirdek", hint:"This is the core idea.", d:["dış","kenar"] },
-
-{ en:"corporate", tr:"kurumsal", hint:"Corporate rules apply.", d:["bireysel","kişisel"] },
-{ en:"correspond", tr:"uyuşmak", hint:"The results correspond.", d:["çelişmek","reddetmek"] },
-{ en:"couple", tr:"birkaç", hint:"A couple of examples.", d:["çok","az"] },
-{ en:"crucial", tr:"çok önemli", hint:"This is crucial.", d:["önemsiz","gereksiz"] },
-{ en:"currency", tr:"para birimi", hint:"The currency lost value.", d:["ürün","hizmet"] },
-{ en:"cycle", tr:"döngü", hint:"Water cycle continues.", d:["durum","sonuç"] },
-{ en:"decline", tr:"azalmak / reddetmek", hint:"Sales declined.", d:["artmak","kabul etmek"] },
-{ en:"demonstrate", tr:"göstermek / kanıtlamak", hint:"Results demonstrate success.", d:["gizlemek","reddetmek"] },
-{ en:"deny", tr:"reddetmek", hint:"He denied the claim.", d:["kabul etmek","desteklemek"] },
-{ en:"derive", tr:"elde etmek", hint:"Results are derived from data.", d:["kaybetmek","reddetmek"] },
-
-{ en:"distribute", tr:"dağıtmak", hint:"They distributed food.", d:["toplamak","saklamak"] },
-{ en:"domestic", tr:"yerel / evsel", hint:"Domestic products increased.", d:["yabancı","global"] },
-{ en:"eliminate", tr:"ortadan kaldırmak", hint:"Eliminate errors.", d:["eklemek","arttırmak"] },
-{ en:"emerge", tr:"ortaya çıkmak", hint:"New ideas emerge.", d:["kaybolmak","azalmak"] },
-{ en:"emphasize", tr:"vurgulamak", hint:"He emphasized the point.", d:["gizlemek","reddetmek"] },
-{ en:"enable", tr:"olanak sağlamak", hint:"Technology enables growth.", d:["engellemek","yasaklamak"] },
-{ en:"encounter", tr:"karşılaşmak", hint:"They encountered problems.", d:["kaçınmak","önlemek"] },
-{ en:"enhance", tr:"arttırmak / geliştirmek", hint:"Enhance performance.", d:["azaltmak","bozmak"] },
-{ en:"ensure", tr:"garanti etmek", hint:"Ensure safety.", d:["engellemek","zayıflatmak"] },
-{ en:"evaluate", tr:"değerlendirmek", hint:"Evaluate the results.", d:["gizlemek","reddetmek"] },
-		
-		{ en:"abundant", tr:"bol", hint:"The region has abundant natural resources.", d:["kıt","zayıf"] },
-{ en:"accommodate", tr:"barındırmak / uyum sağlamak", hint:"The hall can accommodate 500 people.", d:["reddetmek","engellemek"] },
-{ en:"accompany", tr:"eşlik etmek", hint:"Parents accompanied the children.", d:["terk etmek","engellemek"] },
-{ en:"accomplish", tr:"başarmak / tamamlamak", hint:"She accomplished all her goals.", d:["ertelemek","reddetmek"] },
-{ en:"accurate", tr:"doğru / isabetli", hint:"The measurements were accurate.", d:["yanlış","eksik"] },
-{ en:"adaptation", tr:"uyum", hint:"Adaptation is necessary in a changing world.", d:["direnç","engel"] },
-{ en:"adverse", tr:"olumsuz", hint:"The medicine had adverse effects.", d:["olumlu","yararlı"] },
-{ en:"advancement", tr:"ilerleme", hint:"Technology has shown rapid advancement.", d:["gerileme","duraklama"] },
-{ en:"affordable", tr:"karşılanabilir / uygun fiyatlı", hint:"Housing is no longer affordable.", d:["pahalı","gereksiz"] },
-{ en:"agriculture", tr:"tarım", hint:"Agriculture remains important in the region.", d:["sanayi","ticaret"] },
-
-{ en:"alarm", tr:"alarm", type:"object", img:makeEmojiImage("⏰"), d:["saat","zil"] },
-{ en:"align", tr:"hizalamak / uyumlu hale getirmek", hint:"The goals should align with the policy.", d:["karıştırmak","bozmak"] },
-{ en:"ambition", tr:"hırs / amaç", hint:"Her ambition is to become a scientist.", d:["korku","engel"] },
-{ en:"amend", tr:"değiştirmek / düzeltmek", hint:"The law was amended last year.", d:["korumak","reddetmek"] },
-{ en:"analogy", tr:"benzetme", hint:"The teacher used an analogy to explain the idea.", d:["kanıt","itiraz"] },
-{ en:"ancestor", tr:"ata", hint:"People often want to learn about their ancestors.", d:["torun","akraba"] },
-{ en:"annually", tr:"yıllık olarak", hint:"The report is published annually.", d:["günlük olarak","nadiren"] },
-{ en:"apology", tr:"özür", hint:"He offered an apology for the mistake.", d:["itiraz","teşekkür"] },
-{ en:"applicable", tr:"uygulanabilir", hint:"This rule is applicable to all students.", d:["geçersiz","belirsiz"] },
-{ en:"appoint", tr:"atamak", hint:"They appointed a new manager.", d:["göndermek","reddetmek"] },
-
-{ en:"approval", tr:"onay", hint:"The project needs official approval.", d:["itiraz","engel"] },
-{ en:"archive", tr:"arşiv", type:"object", img:makeEmojiImage("🗄️"), d:["dosya","belge"] },
-{ en:"artificial", tr:"yapay", hint:"Artificial materials were used in the experiment.", d:["doğal","gerçek"] },
-{ en:"assemble", tr:"birleştirmek / toplamak", hint:"Workers assembled the parts quickly.", d:["dağıtmak","kırmak"] },
-{ en:"asset", tr:"varlık / değer", hint:"Education is a valuable asset.", d:["borç","engel"] },
-{ en:"astonishing", tr:"şaşırtıcı", hint:"The results were astonishing.", d:["sıradan","beklenen"] },
-{ en:"atmosphere", tr:"atmosfer / ortam", hint:"The classroom atmosphere was positive.", d:["iklim","engel"] },
-{ en:"attach", tr:"eklemek / iliştirmek", hint:"Please attach the file to the email.", d:["silmek","reddetmek"] },
-{ en:"attendance", tr:"katılım", hint:"Attendance was low yesterday.", d:["yokluk","engel"] },
-{ en:"authentic", tr:"gerçek / özgün", hint:"The document appears authentic.", d:["sahte","geçici"] },
-
-{ en:"autonomy", tr:"özerklik", hint:"Universities need greater autonomy.", d:["bağımlılık","zorunluluk"] },
-{ en:"barely", tr:"zar zor", hint:"He could barely hear the speaker.", d:["kolayca","hemen"] },
-{ en:"barrel", tr:"varil", type:"object", img:makeEmojiImage("🛢️"), d:["kutu","şişe"] },
-{ en:"beast", tr:"vahşi hayvan", hint:"The villagers were afraid of the beast.", d:["evcil hayvan","kuş"] },
-{ en:"behave", tr:"davranmak", hint:"Children should behave politely.", d:["kaçınmak","reddetmek"] },
-{ en:"beneath", tr:"altında", hint:"The keys were beneath the chair.", d:["üstünde","yanında"] },
-{ en:"biology", tr:"biyoloji", hint:"She studies biology at university.", d:["kimya","fizik"] },
-{ en:"blame", tr:"suçlamak", hint:"They blamed the weather for the delay.", d:["övmek","onaylamak"] },
-{ en:"blend", tr:"karıştırmak / harmanlamak", hint:"Traditional and modern styles blend here.", d:["ayırmak","reddetmek"] },
-{ en:"bold", tr:"cesur / belirgin", hint:"It was a bold decision.", d:["çekingen","zayıf"] },
-
-{ en:"boost", tr:"artırmak / desteklemek", hint:"The campaign boosted sales.", d:["azaltmak","engellemek"] },
-{ en:"boundary", tr:"sınır", hint:"The river forms a natural boundary.", d:["merkez","bölge"] },
-{ en:"branch", tr:"dal / şube", hint:"The bank opened a new branch.", d:["kök","yaprak"] },
-{ en:"burden", tr:"yük", hint:"High taxes are a burden for many families.", d:["kolaylık","fırsat"] },
-{ en:"cabinet", tr:"dolap / kabine", type:"object", img:makeEmojiImage("🗄️"), d:["masa","raf"] },
-{ en:"calculate", tr:"hesaplamak", hint:"Scientists calculated the distance.", d:["tahmin etmek","unutmak"] },
-{ en:"candidate", tr:"aday", hint:"Each candidate gave a speech.", d:["seçmen","yönetici"] },
-{ en:"capability", tr:"yetenek / kapasite", hint:"The machine has limited capability.", d:["engel","zayıflık"] },
-{ en:"capture", tr:"yakalamak / ele geçirmek", hint:"The camera captured the moment.", d:["kaçırmak","bırakmak"] },
-{ en:"cargo", tr:"yük", hint:"The ship carried valuable cargo.", d:["yolcu","araç"] },
-
-		{ en:"abroad", tr:"yurt dışında", hint:"He studied abroad.", d:["yerel","içerde"] },
-{ en:"absence", tr:"yokluk", hint:"His absence was noticed.", d:["varlık","katılım"] },
-{ en:"absolute", tr:"mutlak", hint:"This is absolute truth.", d:["göreceli","şüpheli"] },
-{ en:"absorb", tr:"emmek / soğurmak", hint:"Plants absorb water.", d:["yaymak","boşaltmak"] },
-{ en:"abstract", tr:"soyut", hint:"Freedom is abstract.", d:["somut","gerçek"] },
-{ en:"abuse", tr:"kötüye kullanmak", hint:"He abused his power.", d:["korumak","desteklemek"] },
-{ en:"academic", tr:"akademik", hint:"Academic success matters.", d:["pratik","günlük"] },
-{ en:"access", tr:"erişim", hint:"Access is limited.", d:["engel","kısıtlama"] },
-{ en:"accomplishment", tr:"başarı", hint:"It was a great accomplishment.", d:["başarısızlık","engel"] },
-{ en:"accord", tr:"uyum", hint:"They acted in accord.", d:["çelişki","engel"] },
-
-{ en:"accordingly", tr:"buna göre", hint:"Act accordingly.", d:["rastgele","tersine"] },
-{ en:"accountable", tr:"sorumlu", hint:"He is accountable.", d:["sorumsuz","zayıf"] },
-{ en:"accuse", tr:"suçlamak", hint:"They accused him.", d:["savunmak","övmek"] },
-{ en:"accurately", tr:"doğru şekilde", hint:"Measure accurately.", d:["yanlış","eksik"] },
-{ en:"achievable", tr:"başarılabilir", hint:"The goal is achievable.", d:["imkansız","zor"] },
-{ en:"acquisition", tr:"edinim", hint:"Language acquisition is complex.", d:["kayıp","engel"] },
-{ en:"activate", tr:"aktif hale getirmek", hint:"Activate the system.", d:["durdurmak","bozmak"] },
-{ en:"actual", tr:"gerçek", hint:"The actual result differs.", d:["hayali","yanlış"] },
-{ en:"adaptable", tr:"uyum sağlayabilir", hint:"Humans are adaptable.", d:["katı","sabit"] },
-{ en:"additional", tr:"ek", hint:"Additional support is needed.", d:["eksik","yetersiz"] },
-
-{ en:"address", tr:"ele almak", hint:"They addressed the issue.", d:["görmezden gelmek","reddetmek"] },
-{ en:"adequately", tr:"yeterince", hint:"The system works adequately.", d:["yetersiz","fazla"] },
-{ en:"adjustment", tr:"ayarlama", hint:"Minor adjustments were made.", d:["bozulma","engel"] },
-{ en:"administer", tr:"yönetmek", hint:"They administer the program.", d:["iptal etmek","engellemek"] },
-{ en:"admission", tr:"kabul", hint:"Admission is required.", d:["ret","engel"] },
-{ en:"adopt", tr:"benimsemek", hint:"They adopted new rules.", d:["reddetmek","engellemek"] },
-{ en:"adult", tr:"yetişkin", hint:"Adults learn differently.", d:["çocuk","bebek"] },
-{ en:"advance", tr:"ilerlemek", hint:"Technology advances.", d:["gerilemek","durmak"] },
-{ en:"advanced", tr:"ileri düzey", hint:"Advanced methods used.", d:["temel","basit"] },
-{ en:"advantageous", tr:"avantajlı", hint:"It is advantageous.", d:["zararlı","gereksiz"] },
-
-{ en:"advice", tr:"tavsiye", hint:"She gave advice.", d:["emir","zorunluluk"] },
-{ en:"afford", tr:"karşılayabilmek", hint:"I cannot afford it.", d:["reddetmek","iptal etmek"] },
-{ en:"agency", tr:"kurum", hint:"The agency manages projects.", d:["birey","toplum"] },
-{ en:"agenda", tr:"gündem", hint:"The meeting agenda is full.", d:["plan","sonuç"] },
-{ en:"aggressive", tr:"agresif", hint:"Aggressive behavior observed.", d:["sakin","yumuşak"] },
-{ en:"aid", tr:"yardım", hint:"They sent aid.", d:["engel","zarar"] },
-{ en:"aim", tr:"amaç", hint:"The aim is clear.", d:["sonuç","engel"] },
-{ en:"aircraft", tr:"uçak", type:"object", img:makeEmojiImage("✈️"), d:["araba","gemi"] },
-{ en:"alarm", tr:"alarm", type:"object", img:makeEmojiImage("⏰"), d:["saat","zil"] },
-{ en:"allegation", tr:"iddia", hint:"Serious allegations were made.", d:["kanıt","sonuç"] },
-
-{ en:"allocate", tr:"tahsis etmek", hint:"Funds are allocated.", d:["dağıtmak","saklamak"] },
-{ en:"allowance", tr:"ödenek", hint:"He receives allowance.", d:["engel","ceza"] },
-{ en:"alongside", tr:"yanında", hint:"Work alongside others.", d:["karşı","uzakta"] },
-{ en:"alteration", tr:"değişiklik", hint:"Minor alterations made.", d:["sabitlik","engel"] },
-{ en:"alternative", tr:"alternatif", hint:"Find an alternative.", d:["tek","zorunlu"] },
-{ en:"altogether", tr:"tamamen", hint:"It stopped altogether.", d:["kısmen","bazen"] },
-{ en:"amazing", tr:"şaşırtıcı", hint:"Amazing results seen.", d:["sıradan","normal"] },
-{ en:"analysis", tr:"analiz", hint:"Data analysis is required.", d:["yorum","tahmin"] },
-{ en:"analyst", tr:"analist", hint:"The analyst examined data.", d:["yönetici","çalışan"] },
-{ en:"ancestor", tr:"ata", hint:"Ancestors lived here.", d:["torun","çocuk"] },
-
-{ en:"angle", tr:"açı", hint:"Measure the angle.", d:["çizgi","nokta"] },
-{ en:"annual", tr:"yıllık", hint:"Annual report published.", d:["günlük","haftalık"] },
-{ en:"anticipation", tr:"beklenti", hint:"There is anticipation.", d:["şüphe","engel"] },
-{ en:"anxiety", tr:"kaygı", hint:"He felt anxiety.", d:["rahatlık","mutluluk"] },
-{ en:"apparent", tr:"açık", hint:"It is apparent.", d:["gizli","karmaşık"] },
-{ en:"appeal", tr:"çekicilik", hint:"The design has appeal.", d:["itici","zayıf"] },
-{ en:"application", tr:"başvuru", hint:"Submit your application.", d:["ret","engel"] },
-{ en:"appoint", tr:"atamak", hint:"They appointed him.", d:["göndermek","reddetmek"] },
-{ en:"approach", tr:"yaklaşım", hint:"This approach works.", d:["uzaklaşma","engel"] },
-{ en:"appropriate", tr:"uygun", hint:"This is appropriate.", d:["uygunsuz","yanlış"] },
-
-{ en:"approval", tr:"onay", hint:"Approval required.", d:["itiraz","engel"] },
-{ en:"archive", tr:"arşiv", type:"object", img:makeEmojiImage("🗄️"), d:["dosya","belge"] },
-{ en:"argument", tr:"tartışma", hint:"Strong argument presented.", d:["uyum","sessizlik"] },
-{ en:"arise", tr:"ortaya çıkmak", hint:"Problems arise.", d:["kaybolmak","azalmak"] },
-{ en:"arrangement", tr:"düzenleme", hint:"Make arrangements.", d:["karmaşa","engel"] },
-{ en:"article", tr:"makale", hint:"He wrote an article.", d:["kitap","rapor"] },
-{ en:"artificial", tr:"yapay", hint:"Artificial intelligence grows.", d:["doğal","gerçek"] },
-{ en:"aspect", tr:"yön", hint:"Consider this aspect.", d:["sonuç","engel"] },
-{ en:"assignment", tr:"görev", hint:"Complete the assignment.", d:["tatil","engel"] },
-{ en:"assist", tr:"yardım etmek", hint:"Assist the team.", d:["engellemek","reddetmek"] },
-
-{ en:"assume", tr:"varsaymak", hint:"Assume it is true.", d:["kanıtlamak","reddetmek"] },
-{ en:"assumption", tr:"varsayım", hint:"This is an assumption.", d:["kanıt","sonuç"] },
-{ en:"atmosphere", tr:"atmosfer", hint:"The atmosphere changed.", d:["iklim","engel"] },
-{ en:"attach", tr:"eklemek", hint:"Attach the file.", d:["silmek","reddetmek"] },
-{ en:"attempt", tr:"girişim", hint:"He made an attempt.", d:["engel","karar"] },
-{ en:"attitude", tr:"tutum", hint:"His attitude changed.", d:["başarı","ölçü"] },
-{ en:"attract", tr:"çekmek", hint:"It attracts attention.", d:["itmek","kaçırmak"] },
-{ en:"attractive", tr:"çekici", hint:"The design is attractive.", d:["itici","zayıf"] },
-{ en:"audience", tr:"izleyici", hint:"The audience listened.", d:["konuşmacı","yazar"] },
-{ en:"authority", tr:"otorite", hint:"Authorities control rules.", d:["birey","toplum"] }
-		
-		];
-
-	  const UNIQUE_WORDS = [];
-const SEEN_WORDS = new Set();
-
-for (const word of WORDS) {
-  const key = (word.en || "").trim().toLowerCase();
-  if (!key) continue;
-
-  if (!SEEN_WORDS.has(key)) {
-    SEEN_WORDS.add(key);
-    UNIQUE_WORDS.push(word);
-  }
-}
+      { type:"group", typeLabel:"İşlev", q:"however", options:["zıtlık","sebep","sonuç"], answer:"zıtlık" },
+      { type:"group", typeLabel:"İşlev", q:"because", options:["sebep","zıtlık","ek bilgi"], answer:"sebep" },
+      { type:"group", typeLabel:"İşlev", q:"therefore", options:["sonuç","zıtlık","örnekleme"], answer:"sonuç" },
+      { type:"group", typeLabel:"İşlev", q:"moreover", options:["ek bilgi","sebep","zaman"], answer:"ek bilgi" },
+      { type:"group", typeLabel:"İşlev", q:"for example", options:["örnekleme","koşul","sonuç"], answer:"örnekleme" },
+      { type:"group", typeLabel:"İşlev", q:"unless", options:["koşul","sonuç","zıtlık"], answer:"koşul" }
+    ];
 
     let completedWords = [];
-    let reviewWords = [];
     let answeredMap = {};
     let sessionWords = [];
     let currentIndex = -1;
     let currentWord = null;
-    let reviewIndex = 0;
     let completedIndex = 0;
+    let connectorIndex = 0;
 
     function loadState() {
       try {
         completedWords = JSON.parse(localStorage.getItem("wowCompletedWords")) || [];
-        reviewWords = JSON.parse(localStorage.getItem("wowReviewWords")) || [];
       } catch {
         completedWords = [];
-        reviewWords = [];
       }
       resetSessionStats();
     }
 
     function savePersistentState() {
       localStorage.setItem("wowCompletedWords", JSON.stringify(completedWords));
-      localStorage.setItem("wowReviewWords", JSON.stringify(reviewWords));
     }
 
     function resetSessionStats() {
@@ -904,29 +617,28 @@ for (const word of WORDS) {
     }
 
     function show(screenId) {
-      document.querySelectorAll(".screen").forEach(s => {
-        s.style.display = "none";
-      });
+      document.querySelectorAll(".screen").forEach(s => s.style.display = "none");
       document.getElementById(screenId).style.display = "block";
     }
 
     function showHome() {
-      hideClearModal();
+      hideClearCompletedModal();
       show("homeScreen");
     }
 
     function shuffle(arr) {
-      return [...arr].sort(() => Math.random() - 0.5);
+      let a = [...arr];
+      for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+      }
+      return a;
     }
 
     function uniquePushWord(list, word) {
       if (!list.some(w => w.en === word.en)) {
         list.push({ ...word });
       }
-    }
-
-    function removeWord(list, word) {
-      return list.filter(w => w.en !== word.en);
     }
 
     function buildChoices(word) {
@@ -962,21 +674,16 @@ for (const word of WORDS) {
 
     function markAnswer(word, isCorrect) {
       if (!answeredMap[word.en]) {
-        answeredMap[word.en] = {
-          result: isCorrect ? "correct" : "wrong"
-        };
+        answeredMap[word.en] = { result: isCorrect ? "correct" : "wrong" };
       }
     }
 
     function applySavedStateToButtons(word, buttons) {
       const saved = answeredMap[word.en];
       if (!saved) return;
-
       buttons.forEach(btn => {
         btn.disabled = true;
-        if (btn.textContent === word.tr) {
-          btn.classList.add("correct");
-        }
+        if (btn.textContent === word.tr) btn.classList.add("correct");
       });
     }
 
@@ -985,32 +692,21 @@ for (const word of WORDS) {
       document.getElementById("nextBtn").disabled = currentIndex >= sessionWords.length - 1;
     }
 
-    function updateReviewNavButtons() {
-      const prev = document.getElementById("reviewPrevBtn");
-      const next = document.getElementById("reviewNextBtn");
-
-      if (!reviewWords.length) {
-        prev.disabled = true;
-        next.disabled = true;
-        return;
-      }
-
-      prev.disabled = reviewIndex <= 0;
-      next.disabled = reviewIndex >= reviewWords.length - 1;
-    }
-
     function updateCompletedNavButtons() {
       const prev = document.getElementById("completedPrevBtn");
       const next = document.getElementById("completedNextBtn");
-
       if (!completedWords.length) {
         prev.disabled = true;
         next.disabled = true;
         return;
       }
-
       prev.disabled = completedIndex <= 0;
       next.disabled = completedIndex >= completedWords.length - 1;
+    }
+
+    function updateConnectorNavButtons() {
+      document.getElementById("connectorPrevBtn").disabled = connectorIndex <= 0;
+      document.getElementById("connectorNextBtn").disabled = connectorIndex >= CONNECTORS.length - 1;
     }
 
     function renderMainQuestion() {
@@ -1039,13 +735,10 @@ for (const word of WORDS) {
       document.getElementById("testCount").textContent = `${currentIndex + 1}/${sessionWords.length}`;
       document.getElementById("word").textContent = currentWord.en;
 
-      const choices = buildChoices(currentWord);
-
-      choices.forEach(choice => {
+      buildChoices(currentWord).forEach(choice => {
         const btn = document.createElement("button");
         btn.className = "choice-btn";
         btn.textContent = choice;
-
         btn.addEventListener("click", () => {
           if (answeredMap[currentWord.en]) return;
 
@@ -1056,11 +749,9 @@ for (const word of WORDS) {
             btn.classList.add("wrong");
             markAnswer(currentWord, false);
           }
-
           applySavedStateToButtons(currentWord, document.querySelectorAll("#choices .choice-btn"));
           openResultSilently();
         });
-
         choicesBox.appendChild(btn);
       });
 
@@ -1071,69 +762,6 @@ for (const word of WORDS) {
       updateNavButtons();
     }
 
-    function renderSecondaryQuestion(word, cfg) {
-      currentWord = word;
-
-      document.getElementById(cfg.countId).textContent = cfg.countValue;
-      document.getElementById(cfg.wordId).textContent = word ? word.en : "Kelime yok";
-      document.getElementById(cfg.hintBoxId).style.display = "none";
-      document.getElementById(cfg.hintTextId).textContent = "";
-      document.getElementById(cfg.hintImageId).style.display = "none";
-      document.getElementById(cfg.hintImageId).src = "";
-      document.getElementById(cfg.statusId).textContent = "";
-
-      const choicesBox = document.getElementById(cfg.choicesId);
-      choicesBox.innerHTML = "";
-
-      if (!word) return;
-
-      buildChoices(word).forEach(choice => {
-        const btn = document.createElement("button");
-        btn.className = "choice-btn";
-        btn.textContent = choice;
-
-        btn.addEventListener("click", () => {
-          document.querySelectorAll(`#${cfg.choicesId} .choice-btn`).forEach(b => {
-            b.disabled = true;
-            if (b.textContent === word.tr) b.classList.add("correct");
-          });
-          if (choice !== word.tr) {
-            btn.classList.add("wrong");
-          }
-        });
-
-        choicesBox.appendChild(btn);
-      });
-    }
-
-    function renderReviewQuestion() {
-      show("reviewScreen");
-
-      if (!reviewWords.length) {
-        document.getElementById("reviewCount").textContent = "0/0";
-        document.getElementById("reviewWord").textContent = "Kelime yok";
-        document.getElementById("reviewChoices").innerHTML = "";
-        updateReviewNavButtons();
-        return;
-      }
-
-      if (reviewIndex < 0) reviewIndex = 0;
-      if (reviewIndex >= reviewWords.length) reviewIndex = reviewWords.length - 1;
-
-      renderSecondaryQuestion(reviewWords[reviewIndex], {
-        countId: "reviewCount",
-        countValue: `${reviewIndex + 1}/${reviewWords.length}`,
-        wordId: "reviewWord",
-        choicesId: "reviewChoices",
-        hintBoxId: "reviewHintBox",
-        hintTextId: "reviewHintText",
-        hintImageId: "reviewHintImage",
-        statusId: "reviewStatus"
-      });
-
-      updateReviewNavButtons();
-    }
-
     function renderCompletedQuestion() {
       show("completedScreen");
 
@@ -1141,6 +769,7 @@ for (const word of WORDS) {
         document.getElementById("completedCount").textContent = "0/0";
         document.getElementById("completedWord").textContent = "Kelime yok";
         document.getElementById("completedChoices").innerHTML = "";
+        document.getElementById("completedHintBox").style.display = "none";
         updateCompletedNavButtons();
         return;
       }
@@ -1148,37 +777,108 @@ for (const word of WORDS) {
       if (completedIndex < 0) completedIndex = 0;
       if (completedIndex >= completedWords.length) completedIndex = completedWords.length - 1;
 
-      renderSecondaryQuestion(completedWords[completedIndex], {
-        countId: "completedCount",
-        countValue: `${completedIndex + 1}/${completedWords.length}`,
-        wordId: "completedWord",
-        choicesId: "completedChoices",
-        hintBoxId: "completedHintBox",
-        hintTextId: "completedHintText",
-        hintImageId: "completedHintImage",
-        statusId: "completedStatus"
+      const word = completedWords[completedIndex];
+      currentWord = word;
+
+      document.getElementById("completedCount").textContent = `${completedIndex + 1}/${completedWords.length}`;
+      document.getElementById("completedWord").textContent = word.en;
+      document.getElementById("completedHintBox").style.display = "none";
+      document.getElementById("completedHintText").textContent = "";
+      document.getElementById("completedHintImage").style.display = "none";
+      document.getElementById("completedHintImage").src = "";
+      document.getElementById("completedStatus").textContent = "";
+
+      const choicesBox = document.getElementById("completedChoices");
+      choicesBox.innerHTML = "";
+
+      buildChoices(word).forEach(choice => {
+        const btn = document.createElement("button");
+        btn.className = "choice-btn";
+        btn.textContent = choice;
+        btn.addEventListener("click", () => {
+          document.querySelectorAll("#completedChoices .choice-btn").forEach(b => {
+            b.disabled = true;
+            if (b.textContent === word.tr) b.classList.add("correct");
+          });
+          if (choice !== word.tr) btn.classList.add("wrong");
+        });
+        choicesBox.appendChild(btn);
       });
 
       updateCompletedNavButtons();
     }
 
+    function renderConnectorQuestion() {
+      show("connectorsScreen");
+
+      if (!CONNECTORS.length) {
+        document.getElementById("connectorCount").textContent = "0/0";
+        document.getElementById("connectorQuestion").textContent = "Soru yok";
+        document.getElementById("connectorChoices").innerHTML = "";
+        return;
+      }
+
+      if (connectorIndex < 0) connectorIndex = 0;
+      if (connectorIndex >= CONNECTORS.length) connectorIndex = CONNECTORS.length - 1;
+
+      const item = CONNECTORS[connectorIndex];
+      document.getElementById("connectorCount").textContent = `${connectorIndex + 1}/${CONNECTORS.length}`;
+      document.getElementById("connectorType").textContent = item.typeLabel;
+      document.getElementById("connectorStatus").textContent = "";
+
+      let qText = item.q;
+      if (item.type === "meaning" || item.type === "group") {
+        qText = item.q;
+      }
+      document.getElementById("connectorQuestion").textContent = qText;
+
+      const box = document.getElementById("connectorChoices");
+      box.innerHTML = "";
+
+      item.options.forEach(opt => {
+        const btn = document.createElement("button");
+        btn.className = "choice-btn";
+        btn.textContent = opt;
+        btn.addEventListener("click", () => {
+          document.querySelectorAll("#connectorChoices .choice-btn").forEach(b => {
+            b.disabled = true;
+            if (b.textContent === item.answer) b.classList.add("correct");
+          });
+          if (opt !== item.answer) btn.classList.add("wrong");
+        });
+        box.appendChild(btn);
+      });
+
+      updateConnectorNavButtons();
+    }
+
     function startTest() {
-  resetSessionStats();
+      resetSessionStats();
 
-  const filteredWords = UNIQUE_WORDS.filter(
-  w => !completedWords.some(c => c.en === w.en)
-);
+      const filteredWords = WORDS.filter(
+        w => !completedWords.some(c => c.en === w.en)
+      );
 
-  if (!filteredWords.length) {
-    alert("Tüm kelimeler tamamlananlara eklendi.");
-    showHome();
-    return;
-  }
+      if (!filteredWords.length) {
+        alert("Tüm kelimeler tamamlananlara eklendi.");
+        showHome();
+        return;
+      }
 
-  sessionWords = shuffle(filteredWords).map(w => ({ ...w }));
-  currentIndex = 0;
-  renderMainQuestion();
-}
+      sessionWords = shuffle(filteredWords).map(w => ({ ...w }));
+      currentIndex = 0;
+      renderMainQuestion();
+    }
+
+    function openCompletedTest() {
+      completedIndex = 0;
+      renderCompletedQuestion();
+    }
+
+    function openConnectors() {
+      connectorIndex = 0;
+      renderConnectorQuestion();
+    }
 
     function goPrevWord() {
       if (currentIndex > 0) {
@@ -1191,30 +891,6 @@ for (const word of WORDS) {
       if (currentIndex < sessionWords.length - 1) {
         currentIndex++;
         renderMainQuestion();
-      }
-    }
-
-    function openReviewTest() {
-      reviewIndex = 0;
-      renderReviewQuestion();
-    }
-
-    function openCompletedTest() {
-      completedIndex = 0;
-      renderCompletedQuestion();
-    }
-
-    function goReviewPrev() {
-      if (reviewIndex > 0) {
-        reviewIndex--;
-        renderReviewQuestion();
-      }
-    }
-
-    function goReviewNext() {
-      if (reviewIndex < reviewWords.length - 1) {
-        reviewIndex++;
-        renderReviewQuestion();
       }
     }
 
@@ -1232,6 +908,20 @@ for (const word of WORDS) {
       }
     }
 
+    function goConnectorPrev() {
+      if (connectorIndex > 0) {
+        connectorIndex--;
+        renderConnectorQuestion();
+      }
+    }
+
+    function goConnectorNext() {
+      if (connectorIndex < CONNECTORS.length - 1) {
+        connectorIndex++;
+        renderConnectorQuestion();
+      }
+    }
+
     function getCorrectCount() {
       return Object.values(answeredMap).filter(v => v.result === "correct").length;
     }
@@ -1241,7 +931,7 @@ for (const word of WORDS) {
     }
 
     function openResultSilently() {
-      document.getElementById("statTotalWords").textContent = UNIQUE_WORDS.length;
+      document.getElementById("statTotalWords").textContent = WORDS.length;
       document.getElementById("statAnswered").textContent = Object.keys(answeredMap).length;
       document.getElementById("statCorrect").textContent = getCorrectCount();
       document.getElementById("statWrong").textContent = getWrongCount();
@@ -1255,43 +945,8 @@ for (const word of WORDS) {
     function addCompleted() {
       if (!currentWord) return;
       uniquePushWord(completedWords, currentWord);
-      reviewWords = removeWord(reviewWords, currentWord);
       savePersistentState();
       renderMainQuestion();
-    }
-
-    function addReview() {
-      if (!currentWord) return;
-      uniquePushWord(reviewWords, currentWord);
-      completedWords = removeWord(completedWords, currentWord);
-      savePersistentState();
-      renderMainQuestion();
-    }
-
-    function moveToCompleted() {
-      if (!currentWord) return;
-      uniquePushWord(completedWords, currentWord);
-      reviewWords = removeWord(reviewWords, currentWord);
-
-      if (reviewIndex >= reviewWords.length) {
-        reviewIndex = Math.max(0, reviewWords.length - 1);
-      }
-
-      savePersistentState();
-      renderReviewQuestion();
-    }
-
-    function moveCompletedToReview() {
-      if (!currentWord) return;
-      uniquePushWord(reviewWords, currentWord);
-      completedWords = removeWord(completedWords, currentWord);
-
-      if (completedIndex >= completedWords.length) {
-        completedIndex = Math.max(0, completedWords.length - 1);
-      }
-
-      savePersistentState();
-      renderCompletedQuestion();
     }
 
     function resetStats() {
@@ -1299,59 +954,49 @@ for (const word of WORDS) {
       openResult();
     }
 
-    function showClearModal() {
-      document.getElementById("clearModal").style.display = "block";
+    function showClearCompletedModal() {
+      document.getElementById("clearCompletedModal").style.display = "block";
     }
 
-    function hideClearModal() {
-      document.getElementById("clearModal").style.display = "none";
+    function hideClearCompletedModal() {
+      document.getElementById("clearCompletedModal").style.display = "none";
     }
 
-    function clearAllData() {
+    function clearCompletedWords() {
       completedWords = [];
-      reviewWords = [];
-      resetSessionStats();
-
       localStorage.removeItem("wowCompletedWords");
-      localStorage.removeItem("wowReviewWords");
-
-      hideClearModal();
-      showHome();
+      hideClearCompletedModal();
+      openCompletedTest();
     }
 
     document.getElementById("startTestBtn").addEventListener("click", startTest);
     document.getElementById("showStatsBtn").addEventListener("click", openResult);
     document.getElementById("showCompletedBtn").addEventListener("click", openCompletedTest);
-    document.getElementById("showReviewBtn").addEventListener("click", openReviewTest);
-    document.getElementById("clearAllBtn").addEventListener("click", showClearModal);
+    document.getElementById("showConnectorsBtn").addEventListener("click", openConnectors);
 
     document.getElementById("speakBtn").addEventListener("click", () => speakWord(currentWord));
     document.getElementById("hintBtn").addEventListener("click", () => currentWord && renderHint("hintBox", "hintText", "hintImage", currentWord));
     document.getElementById("prevBtn").addEventListener("click", goPrevWord);
     document.getElementById("nextBtn").addEventListener("click", goNextWord);
     document.getElementById("addCompletedBtn").addEventListener("click", addCompleted);
-    document.getElementById("addReviewBtn").addEventListener("click", addReview);
     document.getElementById("testHomeBtn").addEventListener("click", showHome);
-
-    document.getElementById("reviewSpeakBtn").addEventListener("click", () => speakWord(currentWord));
-    document.getElementById("reviewHintBtn").addEventListener("click", () => currentWord && renderHint("reviewHintBox", "reviewHintText", "reviewHintImage", currentWord));
-    document.getElementById("reviewPrevBtn").addEventListener("click", goReviewPrev);
-    document.getElementById("reviewNextBtn").addEventListener("click", goReviewNext);
-    document.getElementById("reviewAddCompletedBtn").addEventListener("click", moveToCompleted);
-    document.getElementById("reviewHomeBtn").addEventListener("click", showHome);
 
     document.getElementById("completedSpeakBtn").addEventListener("click", () => speakWord(currentWord));
     document.getElementById("completedHintBtn").addEventListener("click", () => currentWord && renderHint("completedHintBox", "completedHintText", "completedHintImage", currentWord));
     document.getElementById("completedPrevBtn").addEventListener("click", goCompletedPrev);
     document.getElementById("completedNextBtn").addEventListener("click", goCompletedNext);
-    document.getElementById("completedAddReviewBtn").addEventListener("click", moveCompletedToReview);
+    document.getElementById("clearCompletedBtn").addEventListener("click", showClearCompletedModal);
     document.getElementById("completedHomeBtn").addEventListener("click", showHome);
+
+    document.getElementById("connectorPrevBtn").addEventListener("click", goConnectorPrev);
+    document.getElementById("connectorNextBtn").addEventListener("click", goConnectorNext);
+    document.getElementById("connectorsHomeBtn").addEventListener("click", showHome);
 
     document.getElementById("resetStatsBtn").addEventListener("click", resetStats);
     document.getElementById("statsHomeBtn").addEventListener("click", showHome);
 
-    document.getElementById("confirmClearBtn").addEventListener("click", clearAllData);
-    document.getElementById("cancelClearBtn").addEventListener("click", hideClearModal);
+    document.getElementById("confirmClearCompletedBtn").addEventListener("click", clearCompletedWords);
+    document.getElementById("cancelClearCompletedBtn").addEventListener("click", hideClearCompletedModal);
 
     document.addEventListener("dblclick", function (e) {
       e.preventDefault();
