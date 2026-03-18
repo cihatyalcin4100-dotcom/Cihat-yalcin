@@ -274,12 +274,26 @@
 
   <section id="connectorsScreen" class="screen">
     <div class="card">
+      <div id="connectorMenu">
+  <button id="connectorWordBtn" class="menu-btn">Kelime</button>
+  <button id="connectorSentenceBtn" class="menu-btn">Cümle</button>
+</div>
       <div id="connectorCount" class="small-count">0/0</div>
       <div id="connectorType" class="small-count">Bağlaç Çalışması</div>
 
-      <div id="connectorQuestion" class="question-box">Soru</div>
+      <div id="connectorQuiz" style="display:none;">
+  <div id="connectorCount" class="small-count">0/0</div>
+  <div id="connectorType" class="small-count">Bağlaç</div>
+  <div id="connectorQuestion" class="question-box">Soru</div>
+  <div id="connectorChoices"></div>
+  <div id="connectorStatus" class="status"></div>
 
-      <div id="connectorChoices"></div>
+  <div class="nav-row">
+    <button id="connectorPrevBtn" class="nav-btn">◀</button>
+    <div class="nav-spacer"></div>
+    <button id="connectorNextBtn" class="nav-btn">▶</button>
+  </div>
+</div>
 
       <div id="connectorStatus" class="status"></div>
 
@@ -585,7 +599,47 @@
       { type:"group", typeLabel:"İşlev", q:"therefore", options:["sonuç","zıtlık","örnekleme"], answer:"sonuç" },
       { type:"group", typeLabel:"İşlev", q:"moreover", options:["ek bilgi","sebep","zaman"], answer:"ek bilgi" },
       { type:"group", typeLabel:"İşlev", q:"for example", options:["örnekleme","koşul","sonuç"], answer:"örnekleme" },
-      { type:"group", typeLabel:"İşlev", q:"unless", options:["koşul","sonuç","zıtlık"], answer:"koşul" }
+      { type:"group", typeLabel:"İşlev", q:"unless", options:["koşul","sonuç","zıtlık"], answer:"koşul" },
+
+      { type:"fill", typeLabel:"Cümle", q:"He is rich, ______ he is not happy.", options:["yet","therefore","because"], answer:"yet" },
+{ type:"fill", typeLabel:"Cümle", q:"Some people prefer tea, ______ others prefer coffee.", options:["whereas","therefore","because"], answer:"whereas" },
+{ type:"fill", typeLabel:"Cümle", q:"She was very tired; ______, she finished the report.", options:["nevertheless","because","for example"], answer:"nevertheless" },
+{ type:"fill", typeLabel:"Cümle", q:"The road was closed; ______, we took another route.", options:["thus","although","besides"], answer:"thus" },
+{ type:"fill", typeLabel:"Cümle", q:"You can stay here ______ you remain quiet.", options:["provided that","however","therefore"], answer:"provided that" },
+{ type:"fill", typeLabel:"Cümle", q:"Take an umbrella; ______, you may get wet.", options:["otherwise","moreover","because"], answer:"otherwise" },
+{ type:"fill", typeLabel:"Cümle", q:"______ the weather was cold, they went swimming.", options:["Even though","Therefore","In addition"], answer:"Even though" },
+{ type:"fill", typeLabel:"Cümle", q:"She arrived early ______ she wanted to get a good seat.", options:["since","however","nevertheless"], answer:"since" },
+{ type:"fill", typeLabel:"Cümle", q:"The plan is cheap; ______, it is easy to apply.", options:["besides","although","therefore"], answer:"besides" },
+{ type:"fill", typeLabel:"Cümle", q:"You can borrow my car ______ you drive carefully.", options:["as long as","however","for instance"], answer:"as long as" },
+
+{ type:"meaning", typeLabel:"Kelime", q:"whereas", options:["oysa / halbuki","bu yüzden","örneğin"], answer:"oysa / halbuki" },
+{ type:"meaning", typeLabel:"Kelime", q:"nevertheless", options:["yine de / buna rağmen","çünkü","ayrıca"], answer:"yine de / buna rağmen" },
+{ type:"meaning", typeLabel:"Kelime", q:"thus", options:["böylece / bu nedenle","aksine","oysa"], answer:"böylece / bu nedenle" },
+{ type:"meaning", typeLabel:"Kelime", q:"since", options:["çünkü / -den beri","aksine","örneğin"], answer:"çünkü / -den beri" },
+{ type:"meaning", typeLabel:"Kelime", q:"provided that", options:["koşuluyla","bu yüzden","yine de"], answer:"koşuluyla" },
+{ type:"meaning", typeLabel:"Kelime", q:"otherwise", options:["aksi takdirde","ayrıca","oysa"], answer:"aksi takdirde" },
+{ type:"meaning", typeLabel:"Kelime", q:"even though", options:["...olmasına rağmen","bu yüzden","örneğin"], answer:"...olmasına rağmen" },
+{ type:"meaning", typeLabel:"Kelime", q:"as long as", options:["...olduğu sürece","çünkü","üstelik"], answer:"...olduğu sürece" },
+{ type:"meaning", typeLabel:"Kelime", q:"besides", options:["ayrıca / bunun yanında","bu yüzden","oysa"], answer:"ayrıca / bunun yanında" },
+{ type:"meaning", typeLabel:"Kelime", q:"yet", options:["yine de / ama","çünkü","örneğin"], answer:"yine de / ama" },
+
+{ type:"meaning", typeLabel:"Kelime", q:"oysa / halbuki", options:["whereas","thus","because"], answer:"whereas" },
+{ type:"meaning", typeLabel:"Kelime", q:"aksi takdirde", options:["otherwise","moreover","although"], answer:"otherwise" },
+{ type:"meaning", typeLabel:"Kelime", q:"koşuluyla", options:["provided that","therefore","however"], answer:"provided that" },
+{ type:"meaning", typeLabel:"Kelime", q:"...olduğu sürece", options:["as long as","for example","nevertheless"], answer:"as long as" },
+{ type:"meaning", typeLabel:"Kelime", q:"yine de / buna rağmen", options:["nevertheless","because","thus"], answer:"nevertheless" },
+
+{ type:"group", typeLabel:"Kelime", q:"whereas", options:["zıtlık","sebep","sonuç"], answer:"zıtlık" },
+{ type:"group", typeLabel:"Kelime", q:"nevertheless", options:["zıtlık","ek bilgi","örnekleme"], answer:"zıtlık" },
+{ type:"group", typeLabel:"Kelime", q:"thus", options:["sonuç","sebep","zıtlık"], answer:"sonuç" },
+{ type:"group", typeLabel:"Kelime", q:"since", options:["sebep","zıtlık","örnekleme"], answer:"sebep" },
+{ type:"group", typeLabel:"Kelime", q:"provided that", options:["koşul","sonuç","ek bilgi"], answer:"koşul" },
+{ type:"group", typeLabel:"Kelime", q:"otherwise", options:["sonuç / uyarı","sebep","zıtlık"], answer:"sonuç / uyarı" },
+{ type:"group", typeLabel:"Kelime", q:"even though", options:["zıtlık","sebep","ek bilgi"], answer:"zıtlık" },
+{ type:"group", typeLabel:"Kelime", q:"as long as", options:["koşul","örnekleme","sonuç"], answer:"koşul" },
+{ type:"group", typeLabel:"Kelime", q:"besides", options:["ek bilgi","zıtlık","sebep"], answer:"ek bilgi" },
+{ type:"group", typeLabel:"Kelime", q:"yet", options:["zıtlık","sonuç","örnekleme"], answer:"zıtlık" }
+      
     ];
 
     let completedWords = [];
@@ -595,6 +649,9 @@
     let currentWord = null;
     let completedIndex = 0;
     let connectorIndex = 0;
+    let connectorMode = null;
+    let activeConnectors = [];
+
 
     function loadState() {
       try {
@@ -622,9 +679,13 @@
     }
 
     function showHome() {
-      hideClearCompletedModal();
-      show("homeScreen");
-    }
+  hideClearCompletedModal();
+
+  document.getElementById("connectorMenu").style.display = "block";
+  document.getElementById("connectorQuiz").style.display = "none";
+
+  show("homeScreen");
+}
 
     function shuffle(arr) {
       let a = [...arr];
@@ -811,7 +872,7 @@
     function renderConnectorQuestion() {
       show("connectorsScreen");
 
-      if (!CONNECTORS.length) {
+      if (!activeConnectors.length) {
         document.getElementById("connectorCount").textContent = "0/0";
         document.getElementById("connectorQuestion").textContent = "Soru yok";
         document.getElementById("connectorChoices").innerHTML = "";
@@ -821,8 +882,8 @@
       if (connectorIndex < 0) connectorIndex = 0;
       if (connectorIndex >= CONNECTORS.length) connectorIndex = CONNECTORS.length - 1;
 
-      const item = CONNECTORS[connectorIndex];
-      document.getElementById("connectorCount").textContent = `${connectorIndex + 1}/${CONNECTORS.length}`;
+      const item = activeConnectors[connectorIndex];
+      document.getElementById("connectorCount").textContent = `${connectorIndex + 1}/${activeConnectors.length}`;
       document.getElementById("connectorType").textContent = item.typeLabel;
       document.getElementById("connectorStatus").textContent = "";
 
@@ -876,9 +937,32 @@
     }
 
     function openConnectors() {
-      connectorIndex = 0;
-      renderConnectorQuestion();
-    }
+  connectorIndex = 0;
+  activeConnectors = [];
+
+  show("connectorsScreen");
+  document.getElementById("connectorMenu").style.display = "block";
+  document.getElementById("connectorQuiz").style.display = "none";
+}
+
+    function startConnectorMode(mode) {
+  connectorMode = mode;
+
+  if (mode === "word") {
+    activeConnectors = CONNECTORS.filter(c => c.type !== "fill");
+  } else {
+    activeConnectors = shuffle(
+      CONNECTORS.filter(c => c.type === "fill")
+    ).slice(0, 15);
+  }
+
+  connectorIndex = 0;
+
+  document.getElementById("connectorMenu").style.display = "none";
+  document.getElementById("connectorQuiz").style.display = "block";
+
+  renderConnectorQuestion();
+}
 
     function goPrevWord() {
       if (currentIndex > 0) {
@@ -973,6 +1057,12 @@
     document.getElementById("showStatsBtn").addEventListener("click", openResult);
     document.getElementById("showCompletedBtn").addEventListener("click", openCompletedTest);
     document.getElementById("showConnectorsBtn").addEventListener("click", openConnectors);
+    document.getElementById("connectorWordBtn").addEventListener("click", () => {
+  startConnectorMode("word");
+});
+    document.getElementById("connectorSentenceBtn").addEventListener("click", () => {
+  startConnectorMode("sentence");
+});
 
     document.getElementById("speakBtn").addEventListener("click", () => speakWord(currentWord));
     document.getElementById("hintBtn").addEventListener("click", () => currentWord && renderHint("hintBox", "hintText", "hintImage", currentWord));
