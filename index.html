@@ -715,6 +715,19 @@
 		
 		];
 
+	  const UNIQUE_WORDS = [];
+const SEEN_WORDS = new Set();
+
+for (const word of WORDS) {
+  const key = (word.en || "").trim().toLowerCase();
+  if (!key) continue;
+
+  if (!SEEN_WORDS.has(key)) {
+    SEEN_WORDS.add(key);
+    UNIQUE_WORDS.push(word);
+  }
+}
+
     let completedWords = [];
     let reviewWords = [];
     let answeredMap = {};
@@ -1009,9 +1022,9 @@
     function startTest() {
   resetSessionStats();
 
-  const filteredWords = WORDS.filter(
-    w => !completedWords.some(c => c.en === w.en)
-  );
+  const filteredWords = UNIQUE_WORDS.filter(
+  w => !completedWords.some(c => c.en === w.en)
+);
 
   if (!filteredWords.length) {
     alert("Tüm kelimeler tamamlananlara eklendi.");
@@ -1085,7 +1098,7 @@
     }
 
     function openResultSilently() {
-      document.getElementById("statTotalWords").textContent = WORDS.length;
+      document.getElementById("statTotalWords").textContent = UNIQUE_WORDS.length;
       document.getElementById("statAnswered").textContent = Object.keys(answeredMap).length;
       document.getElementById("statCorrect").textContent = getCorrectCount();
       document.getElementById("statWrong").textContent = getWrongCount();
