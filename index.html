@@ -746,7 +746,78 @@
 { type:"meaning", typeLabel:"Kelime", q:"beforehand", options:["önceden","çünkü","üstelik"], answer:"önceden" },
 
 { type:"meaning", typeLabel:"Kelime", q:"initially", options:["başlangıçta","çünkü","aksine"], answer:"başlangıçta" },
-{ type:"meaning", typeLabel:"Kelime", q:"eventually", options:["sonunda","çünkü","üstelik"], answer:"sonunda" }
+{ type:"meaning", typeLabel:"Kelime", q:"eventually", options:["sonunda","çünkü","üstelik"], answer:"sonunda" },
+
+      // ===== although / though / even though =====
+{ type:"meaning", q:"although", options:["-e rağmen","çünkü","bu yüzden"], answer:"-e rağmen" },
+{ type:"group", q:"although", options:["zıtlık","sebep","sonuç"], answer:"zıtlık" },
+{ type:"fill", q:"______ he was tired, he continued working.", options:["Although","Because","Therefore"], answer:"Although" },
+
+{ type:"meaning", q:"even though", options:["-e rağmen (güçlü)","çünkü","örneğin"], answer:"-e rağmen (güçlü)" },
+{ type:"group", q:"even though", options:["zıtlık","sonuç","amaç"], answer:"zıtlık" },
+{ type:"fill", q:"______ it was raining, they went out.", options:["Even though","Because","Thus"], answer:"Even though" },
+
+// ===== because / since / as =====
+{ type:"meaning", q:"because", options:["çünkü","aksine","üstelik"], answer:"çünkü" },
+{ type:"group", q:"because", options:["sebep","zıtlık","sonuç"], answer:"sebep" },
+{ type:"fill", q:"She stayed home ______ she was sick.", options:["because","although","however"], answer:"because" },
+
+{ type:"meaning", q:"since", options:["çünkü / -den beri","aksine","üstelik"], answer:"çünkü / -den beri" },
+{ type:"group", q:"since", options:["sebep","zaman","zıtlık"], answer:"sebep" },
+{ type:"fill", q:"______ he was busy, he couldn’t join us.", options:["Since","Although","Therefore"], answer:"Since" },
+
+{ type:"meaning", q:"as", options:["çünkü / iken","aksine","üstelik"], answer:"çünkü / iken" },
+{ type:"group", q:"as", options:["sebep","zaman","sonuç"], answer:"sebep" },
+{ type:"fill", q:"______ it was late, we decided to leave.", options:["As","However","Thus"], answer:"As" },
+
+// ===== therefore / thus / hence =====
+{ type:"meaning", q:"therefore", options:["bu yüzden","çünkü","aksine"], answer:"bu yüzden" },
+{ type:"group", q:"therefore", options:["sonuç","sebep","zıtlık"], answer:"sonuç" },
+{ type:"fill", q:"He didn’t study; ______, he failed.", options:["therefore","although","because"], answer:"therefore" },
+
+{ type:"meaning", q:"thus", options:["böylece","çünkü","aksine"], answer:"böylece" },
+{ type:"group", q:"thus", options:["sonuç","zıtlık","amaç"], answer:"sonuç" },
+{ type:"fill", q:"The system failed; ______, production stopped.", options:["thus","although","because"], answer:"thus" },
+
+{ type:"meaning", q:"hence", options:["bu yüzden","aksine","çünkü"], answer:"bu yüzden" },
+{ type:"group", q:"hence", options:["sonuç","sebep","zıtlık"], answer:"sonuç" },
+{ type:"fill", q:"He was ill; ______, he stayed home.", options:["hence","although","because"], answer:"hence" },
+
+// ===== despite / in spite of =====
+{ type:"meaning", q:"despite", options:["-e rağmen","çünkü","aksine"], answer:"-e rağmen" },
+{ type:"group", q:"despite", options:["zıtlık","sebep","sonuç"], answer:"zıtlık" },
+{ type:"fill", q:"______ the rain, we went out.", options:["Despite","Because","Therefore"], answer:"Despite" },
+
+{ type:"meaning", q:"in spite of", options:["-e rağmen","çünkü","üstelik"], answer:"-e rağmen" },
+{ type:"group", q:"in spite of", options:["zıtlık","sebep","sonuç"], answer:"zıtlık" },
+{ type:"fill", q:"______ his illness, he worked.", options:["In spite of","Because","Thus"], answer:"In spite of" },
+
+// ===== however / nevertheless =====
+{ type:"meaning", q:"however", options:["ancak / fakat","çünkü","bu yüzden"], answer:"ancak / fakat" },
+{ type:"group", q:"however", options:["zıtlık","sonuç","sebep"], answer:"zıtlık" },
+{ type:"fill", q:"He is rich; ______, he is unhappy.", options:["however","because","thus"], answer:"however" },
+
+{ type:"meaning", q:"nevertheless", options:["yine de","çünkü","aksine"], answer:"yine de" },
+{ type:"group", q:"nevertheless", options:["zıtlık","sonuç","amaç"], answer:"zıtlık" },
+{ type:"fill", q:"She was tired; ______, she kept working.", options:["nevertheless","because","thus"], answer:"nevertheless" },
+
+// ===== unless / provided that =====
+{ type:"meaning", q:"unless", options:["...medikçe","çünkü","aksine"], answer:"...medikçe" },
+{ type:"group", q:"unless", options:["koşul","zıtlık","sonuç"], answer:"koşul" },
+{ type:"fill", q:"You can’t pass ______ you study.", options:["unless","although","therefore"], answer:"unless" },
+
+{ type:"meaning", q:"provided that", options:["koşuluyla","çünkü","aksine"], answer:"koşuluyla" },
+{ type:"group", q:"provided that", options:["koşul","zıtlık","sebep"], answer:"koşul" },
+{ type:"fill", q:"You can go out ______ you finish homework.", options:["provided that","however","because"], answer:"provided that" },
+
+// ===== moreover / furthermore =====
+{ type:"meaning", q:"moreover", options:["üstelik","çünkü","aksine"], answer:"üstelik" },
+{ type:"group", q:"moreover", options:["ek bilgi","zıtlık","sebep"], answer:"ek bilgi" },
+{ type:"fill", q:"He is smart; ______, he is hardworking.", options:["moreover","although","because"], answer:"moreover" },
+
+{ type:"meaning", q:"furthermore", options:["ayrıca","çünkü","aksine"], answer:"ayrıca" },
+{ type:"group", q:"furthermore", options:["ek bilgi","zıtlık","sebep"], answer:"ek bilgi" },
+{ type:"fill", q:"The plan is cheap; ______, it is effective.", options:["furthermore","although","because"], answer:"furthermore" }
       
     ];
 
