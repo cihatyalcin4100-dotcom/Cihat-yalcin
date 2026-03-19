@@ -278,6 +278,7 @@
     <div id="connectorMenu">
       <button id="connectorWordBtn" class="menu-btn">Kelime</button>
       <button id="connectorSentenceBtn" class="menu-btn">Cümle</button>
+      <button onclick="openTable()">Tablo</button>
       <button id="connectorsHomeBtn" class="menu-btn">Ana Menü</button>
     </div>
 
@@ -1825,6 +1826,127 @@ document.addEventListener("dblclick", function (e) {
 
 loadState();
 showHome();
+
+    function openTable(){
+  document.getElementById("connectorScreen").style.display = "none";
+  document.getElementById("baglacTablo").style.display = "block";
+}
+
+function closeTable(){
+  document.getElementById("baglacTablo").style.display = "none";
+  document.getElementById("connectorScreen").style.display = "block";
+}
   </script>
+
+  <div id="baglacTablo" style="display:none; padding:15px; overflow-x:auto;">
+
+<h2 style="text-align:center;">Bağlaç Tablosu</h2>
+
+<table style="border-collapse:collapse; width:100%; min-width:900px; font-size:14px;">
+  
+<thead>
+<tr style="background:#222; color:white;">
+<th style="border:1px solid #555; padding:8px;">Grup</th>
+<th style="border:1px solid #555; padding:8px;">çünkü</th>
+<th style="border:1px solid #555; padding:8px;">bu yüzden</th>
+<th style="border:1px solid #555; padding:8px;">ancak / fakat</th>
+<th style="border:1px solid #555; padding:8px;">-e rağmen</th>
+<th style="border:1px solid #555; padding:8px;">oysa / halbuki</th>
+<th style="border:1px solid #555; padding:8px;">aksine</th>
+<th style="border:1px solid #555; padding:8px;">ayrıca / üstelik</th>
+<th style="border:1px solid #555; padding:8px;">örneğin</th>
+<th style="border:1px solid #555; padding:8px;">koşuluyla</th>
+<th style="border:1px solid #555; padding:8px;">aksi takdirde</th>
+<th style="border:1px solid #555; padding:8px;">...mesi için</th>
+<th style="border:1px solid #555; padding:8px;">...iken</th>
+<th style="border:1px solid #555; padding:8px;">-den dolayı</th>
+</tr>
+</thead>
+
+<tbody>
+
+<tr>
+<td style="border:1px solid #555; padding:8px;"><b>Sebep</b></td>
+<td style="border:1px solid #555; padding:8px;">because, since, as</td>
+<td></td><td></td><td></td><td></td><td></td>
+<td></td><td></td><td></td><td></td>
+<td></td>
+<td style="border:1px solid #555; padding:8px;">as, since</td>
+<td style="border:1px solid #555; padding:8px;">due to, owing to, thanks to</td>
+</tr>
+
+<tr>
+<td style="border:1px solid #555; padding:8px;"><b>Sonuç</b></td>
+<td></td>
+<td style="border:1px solid #555; padding:8px;">therefore, thus, hence, consequently, as a result, accordingly</td>
+<td></td><td></td><td></td><td></td>
+<td></td><td></td><td></td>
+<td style="border:1px solid #555; padding:8px;">otherwise</td>
+<td></td><td></td><td></td>
+</tr>
+
+<tr>
+<td style="border:1px solid #555; padding:8px;"><b>Zıtlık</b></td>
+<td></td><td></td>
+<td style="border:1px solid #555; padding:8px;">but, however, yet, nevertheless, nonetheless, still</td>
+<td style="border:1px solid #555; padding:8px;">although, though, even though, despite, in spite of</td>
+<td style="border:1px solid #555; padding:8px;">whereas, while, on the other hand</td>
+<td style="border:1px solid #555; padding:8px;">on the contrary</td>
+<td></td><td></td><td></td><td></td><td></td>
+<td style="border:1px solid #555; padding:8px;">while</td>
+<td></td>
+</tr>
+
+<tr>
+<td style="border:1px solid #555; padding:8px;"><b>Ek bilgi</b></td>
+<td></td><td></td><td></td><td></td><td></td><td></td>
+<td style="border:1px solid #555; padding:8px;">moreover, furthermore, besides, in addition, additionally</td>
+<td></td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+
+<tr>
+<td style="border:1px solid #555; padding:8px;"><b>Örnekleme</b></td>
+<td></td><td></td><td></td><td></td><td></td><td></td>
+<td></td>
+<td style="border:1px solid #555; padding:8px;">for example, for instance, such as</td>
+<td></td><td></td><td></td><td></td><td></td>
+</tr>
+
+<tr>
+<td style="border:1px solid #555; padding:8px;"><b>Koşul</b></td>
+<td></td><td></td><td></td><td></td><td></td><td></td>
+<td></td><td></td>
+<td style="border:1px solid #555; padding:8px;">provided that, as long as, in case</td>
+<td style="border:1px solid #555; padding:8px;">unless, otherwise</td>
+<td></td><td></td><td></td>
+</tr>
+
+<tr>
+<td style="border:1px solid #555; padding:8px;"><b>Amaç</b></td>
+<td></td><td></td><td></td><td></td><td></td><td></td>
+<td></td><td></td><td></td><td></td>
+<td style="border:1px solid #555; padding:8px;">so that, in order to</td>
+<td></td><td></td>
+</tr>
+
+<tr>
+<td style="border:1px solid #555; padding:8px;"><b>Zaman</b></td>
+<td></td><td></td><td></td><td></td><td></td><td></td>
+<td></td><td></td><td></td><td></td>
+<td></td>
+<td style="border:1px solid #555; padding:8px;">while, as, once, when, whenever, after, before</td>
+<td></td>
+</tr>
+
+</tbody>
+</table>
+
+<br>
+
+<button onclick="closeTable()" style="padding:12px; width:100%; font-size:16px;">
+⬅ Geri
+</button>
+
+</div>
 </body>
 </html>
