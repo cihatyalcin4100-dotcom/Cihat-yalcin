@@ -273,28 +273,20 @@
   </section>
 
   <section id="connectorsScreen" class="screen">
-    <div class="card">
-      <div id="connectorMenu">
-  <button id="connectorWordBtn" class="menu-btn">Kelime</button>
-  <button id="connectorSentenceBtn" class="menu-btn">Cümle</button>
-</div>
-      <div id="connectorCount" class="small-count">0/0</div>
-      <div id="connectorType" class="small-count">Bağlaç Çalışması</div>
+  <div class="card">
 
-      <div id="connectorQuiz" style="display:none;">
-  <div id="connectorCount" class="small-count">0/0</div>
-  <div id="connectorType" class="small-count">Bağlaç</div>
-  <div id="connectorQuestion" class="question-box">Soru</div>
-  <div id="connectorChoices"></div>
-  <div id="connectorStatus" class="status"></div>
+    <div id="connectorMenu">
+      <button id="connectorWordBtn" class="menu-btn">Kelime</button>
+      <button id="connectorSentenceBtn" class="menu-btn">Cümle</button>
+      <button id="connectorsHomeBtn" class="menu-btn">Ana Menü</button>
+    </div>
 
-  <div class="nav-row">
-    <button id="connectorPrevBtn" class="nav-btn">◀</button>
-    <div class="nav-spacer"></div>
-    <button id="connectorNextBtn" class="nav-btn">▶</button>
-  </div>
-</div>
+    <div id="connectorQuiz" style="display:none;">
+      <div id="connectorCount" class="small-count" style="display:none;">0/0</div>
+      <div id="connectorType" class="small-count" style="display:none;">Bağlaç</div>
 
+      <div id="connectorQuestion" class="question-box">Soru</div>
+      <div id="connectorChoices"></div>
       <div id="connectorStatus" class="status"></div>
 
       <div class="nav-row">
@@ -303,9 +295,11 @@
         <button id="connectorNextBtn" class="nav-btn" title="Sonraki">▶</button>
       </div>
 
-      <button id="connectorsHomeBtn" class="menu-btn">Üst Menü</button>
+      <button id="connectorBackBtn" class="menu-btn">Üst Menü</button>
     </div>
-  </section>
+
+  </div>
+</section>
 
   <section id="statsScreen" class="screen">
     <div class="card">
@@ -680,10 +674,6 @@ function show(screenId) {
 
 function showHome() {
   hideClearCompletedModal();
-
-  document.getElementById("connectorMenu").style.display = "block";
-  document.getElementById("connectorQuiz").style.display = "none";
-
   show("homeScreen");
 }
 
@@ -1102,6 +1092,9 @@ document.getElementById("connectorSentenceBtn").addEventListener("click", () => 
   startConnectorMode("sentence");
 });
 
+document.getElementById("connectorsHomeBtn").addEventListener("click", showHome);
+document.getElementById("connectorBackBtn").addEventListener("click", openConnectors);
+
 document.getElementById("speakBtn").addEventListener("click", () => speakWord(currentWord));
 document.getElementById("hintBtn").addEventListener("click", () => currentWord && renderHint("hintBox", "hintText", "hintImage", currentWord));
 document.getElementById("prevBtn").addEventListener("click", goPrevWord);
@@ -1118,7 +1111,6 @@ document.getElementById("completedHomeBtn").addEventListener("click", showHome);
 
 document.getElementById("connectorPrevBtn").addEventListener("click", goConnectorPrev);
 document.getElementById("connectorNextBtn").addEventListener("click", goConnectorNext);
-document.getElementById("connectorsHomeBtn").addEventListener("click", openConnectors);
 
 document.getElementById("resetStatsBtn").addEventListener("click", resetStats);
 document.getElementById("statsHomeBtn").addEventListener("click", showHome);
