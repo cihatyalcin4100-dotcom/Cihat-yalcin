@@ -303,7 +303,7 @@
         <button id="connectorNextBtn" class="nav-btn" title="Sonraki">▶</button>
       </div>
 
-      <button id="connectorsHomeBtn" class="menu-btn">Ana Menü</button>
+      <button id="connectorsHomeBtn" class="menu-btn">Üst Menü</button>
     </div>
   </section>
 
@@ -654,31 +654,31 @@
 
 
     function loadState() {
-      try {
-        completedWords = JSON.parse(localStorage.getItem("wowCompletedWords")) || [];
-      } catch {
-        completedWords = [];
-      }
-      resetSessionStats();
-    }
+  try {
+    completedWords = JSON.parse(localStorage.getItem("wowCompletedWords")) || [];
+  } catch {
+    completedWords = [];
+  }
+  resetSessionStats();
+}
 
-    function savePersistentState() {
-      localStorage.setItem("wowCompletedWords", JSON.stringify(completedWords));
-    }
+function savePersistentState() {
+  localStorage.setItem("wowCompletedWords", JSON.stringify(completedWords));
+}
 
-    function resetSessionStats() {
-      answeredMap = {};
-      sessionWords = [];
-      currentIndex = -1;
-      currentWord = null;
-    }
+function resetSessionStats() {
+  answeredMap = {};
+  sessionWords = [];
+  currentIndex = -1;
+  currentWord = null;
+}
 
-    function show(screenId) {
-      document.querySelectorAll(".screen").forEach(s => s.style.display = "none");
-      document.getElementById(screenId).style.display = "block";
-    }
+function show(screenId) {
+  document.querySelectorAll(".screen").forEach(s => s.style.display = "none");
+  document.getElementById(screenId).style.display = "block";
+}
 
-    function showHome() {
+function showHome() {
   hideClearCompletedModal();
 
   document.getElementById("connectorMenu").style.display = "block";
@@ -687,265 +687,220 @@
   show("homeScreen");
 }
 
-    function shuffle(arr) {
-      let a = [...arr];
-      for (let i = a.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [a[i], a[j]] = [a[j], a[i]];
-      }
-      return a;
-    }
-
-    function uniquePushWord(list, word) {
-      if (!list.some(w => w.en === word.en)) {
-        list.push({ ...word });
-      }
-    }
-
-    function buildChoices(word) {
-      return shuffle([word.tr, ...word.d]);
-    }
-
-    function speakWord(word) {
-      if (!word) return;
-      window.speechSynthesis.cancel();
-      const u = new SpeechSynthesisUtterance(word.en);
-      u.lang = "en-US";
-      u.rate = 0.9;
-      speechSynthesis.speak(u);
-    }
-
-    function renderHint(boxId, textId, imageId, word) {
-      const hintBox = document.getElementById(boxId);
-      const hintText = document.getElementById(textId);
-      const hintImage = document.getElementById(imageId);
-
-      hintBox.style.display = "block";
-
-      if (word.type === "object" && word.img) {
-        hintText.textContent = "";
-        hintImage.src = word.img;
-        hintImage.style.display = "block";
-      } else {
-        hintText.textContent = word.hint || "";
-        hintImage.style.display = "none";
-        hintImage.src = "";
-      }
-    }
-
-    function markAnswer(word, isCorrect) {
-      if (!answeredMap[word.en]) {
-        answeredMap[word.en] = { result: isCorrect ? "correct" : "wrong" };
-      }
-    }
-
-    function applySavedStateToButtons(word, buttons) {
-      const saved = answeredMap[word.en];
-      if (!saved) return;
-      buttons.forEach(btn => {
-        btn.disabled = true;
-        if (btn.textContent === word.tr) btn.classList.add("correct");
-      });
-    }
-
-    function updateNavButtons() {
-      document.getElementById("prevBtn").disabled = currentIndex <= 0;
-      document.getElementById("nextBtn").disabled = currentIndex >= sessionWords.length - 1;
-    }
-
-    function updateCompletedNavButtons() {
-      const prev = document.getElementById("completedPrevBtn");
-      const next = document.getElementById("completedNextBtn");
-      if (!completedWords.length) {
-        prev.disabled = true;
-        next.disabled = true;
-        return;
-      }
-      prev.disabled = completedIndex <= 0;
-      next.disabled = completedIndex >= completedWords.length - 1;
-    }
-
-    function updateConnectorNavButtons() {
-      document.getElementById("connectorPrevBtn").disabled = connectorIndex <= 0;
-      document.getElementById("connectorNextBtn").disabled = connectorIndex >= CONNECTORS.length - 1;
-    }
-
-    function renderMainQuestion() {
-      show("testScreen");
-
-      const hintBox = document.getElementById("hintBox");
-      const hintText = document.getElementById("hintText");
-      const hintImage = document.getElementById("hintImage");
-      const choicesBox = document.getElementById("choices");
-
-      hintBox.style.display = "none";
-      hintText.textContent = "";
-      hintImage.style.display = "none";
-      hintImage.src = "";
-      choicesBox.innerHTML = "";
-      document.getElementById("status").textContent = "";
-
-      if (!sessionWords.length || currentIndex < 0 || currentIndex >= sessionWords.length) {
-        document.getElementById("testCount").textContent = "0/0";
-        document.getElementById("word").textContent = "Kelime yok";
-        updateNavButtons();
-        return;
-      }
-
-      currentWord = sessionWords[currentIndex];
-      document.getElementById("testCount").textContent = `${currentIndex + 1}/${sessionWords.length}`;
-      document.getElementById("word").textContent = currentWord.en;
-
-      buildChoices(currentWord).forEach(choice => {
-        const btn = document.createElement("button");
-        btn.className = "choice-btn";
-        btn.textContent = choice;
-        btn.addEventListener("click", () => {
-          if (answeredMap[currentWord.en]) return;
-
-          if (choice === currentWord.tr) {
-            btn.classList.add("correct");
-            markAnswer(currentWord, true);
-          } else {
-            btn.classList.add("wrong");
-            markAnswer(currentWord, false);
-          }
-          applySavedStateToButtons(currentWord, document.querySelectorAll("#choices .choice-btn"));
-          openResultSilently();
-        });
-        choicesBox.appendChild(btn);
-      });
-
-      if (answeredMap[currentWord.en]) {
-        applySavedStateToButtons(currentWord, document.querySelectorAll("#choices .choice-btn"));
-      }
-
-      updateNavButtons();
-    }
-
-    function renderCompletedQuestion() {
-      show("completedScreen");
-
-      if (!completedWords.length) {
-        document.getElementById("completedCount").textContent = "0/0";
-        document.getElementById("completedWord").textContent = "Kelime yok";
-        document.getElementById("completedChoices").innerHTML = "";
-        document.getElementById("completedHintBox").style.display = "none";
-        updateCompletedNavButtons();
-        return;
-      }
-
-      if (completedIndex < 0) completedIndex = 0;
-      if (completedIndex >= completedWords.length) completedIndex = completedWords.length - 1;
-
-      const word = completedWords[completedIndex];
-      currentWord = word;
-
-      document.getElementById("completedCount").textContent = `${completedIndex + 1}/${completedWords.length}`;
-      document.getElementById("completedWord").textContent = word.en;
-      document.getElementById("completedHintBox").style.display = "none";
-      document.getElementById("completedHintText").textContent = "";
-      document.getElementById("completedHintImage").style.display = "none";
-      document.getElementById("completedHintImage").src = "";
-      document.getElementById("completedStatus").textContent = "";
-
-      const choicesBox = document.getElementById("completedChoices");
-      choicesBox.innerHTML = "";
-
-      buildChoices(word).forEach(choice => {
-        const btn = document.createElement("button");
-        btn.className = "choice-btn";
-        btn.textContent = choice;
-        btn.addEventListener("click", () => {
-          document.querySelectorAll("#completedChoices .choice-btn").forEach(b => {
-            b.disabled = true;
-            if (b.textContent === word.tr) b.classList.add("correct");
-          });
-          if (choice !== word.tr) btn.classList.add("wrong");
-        });
-        choicesBox.appendChild(btn);
-      });
-
-      updateCompletedNavButtons();
-    }
-
-    function renderConnectorQuestion() {
-      show("connectorsScreen");
-
-      if (!activeConnectors.length) {
-        document.getElementById("connectorCount").textContent = "0/0";
-        document.getElementById("connectorQuestion").textContent = "Soru yok";
-        document.getElementById("connectorChoices").innerHTML = "";
-        return;
-      }
-
-      if (connectorIndex < 0) connectorIndex = 0;
-      if (connectorIndex >= CONNECTORS.length) connectorIndex = CONNECTORS.length - 1;
-
-      const item = activeConnectors[connectorIndex];
-      document.getElementById("connectorCount").textContent = `${connectorIndex + 1}/${activeConnectors.length}`;
-      document.getElementById("connectorType").textContent = item.typeLabel;
-      document.getElementById("connectorStatus").textContent = "";
-
-      let qText = item.q;
-      if (item.type === "meaning" || item.type === "group") {
-        qText = item.q;
-      }
-      document.getElementById("connectorQuestion").textContent = qText;
-
-      const box = document.getElementById("connectorChoices");
-      box.innerHTML = "";
-
-      item.options.forEach(opt => {
-        const btn = document.createElement("button");
-        btn.className = "choice-btn";
-        btn.textContent = opt;
-        btn.addEventListener("click", () => {
-          document.querySelectorAll("#connectorChoices .choice-btn").forEach(b => {
-            b.disabled = true;
-            if (b.textContent === item.answer) b.classList.add("correct");
-          });
-          if (opt !== item.answer) btn.classList.add("wrong");
-        });
-        box.appendChild(btn);
-      });
-
-      updateConnectorNavButtons();
-    }
-
-    function startTest() {
-      resetSessionStats();
-
-      const filteredWords = WORDS.filter(
-        w => !completedWords.some(c => c.en === w.en)
-      );
-
-      if (!filteredWords.length) {
-        alert("Tüm kelimeler tamamlananlara eklendi.");
-        showHome();
-        return;
-      }
-
-      sessionWords = shuffle(filteredWords).map(w => ({ ...w }));
-      currentIndex = 0;
-      renderMainQuestion();
-    }
-
-    function openCompletedTest() {
-      completedIndex = 0;
-      renderCompletedQuestion();
-    }
-
-    function openConnectors() {
-  connectorIndex = 0;
-  activeConnectors = [];
-
-  show("connectorsScreen");
-  document.getElementById("connectorMenu").style.display = "block";
-  document.getElementById("connectorQuiz").style.display = "none";
+function shuffle(arr) {
+  let a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
 }
 
-    function startConnectorMode(mode) {
+function uniquePushWord(list, word) {
+  if (!list.some(w => w.en === word.en)) {
+    list.push({ ...word });
+  }
+}
+
+function buildChoices(word) {
+  return shuffle([word.tr, ...word.d]);
+}
+
+function speakWord(word) {
+  if (!word) return;
+  window.speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(word.en);
+  u.lang = "en-US";
+  u.rate = 0.9;
+  speechSynthesis.speak(u);
+}
+
+function renderHint(boxId, textId, imageId, word) {
+  const hintBox = document.getElementById(boxId);
+  const hintText = document.getElementById(textId);
+  const hintImage = document.getElementById(imageId);
+
+  hintBox.style.display = "block";
+
+  if (word.type === "object" && word.img) {
+    hintText.textContent = "";
+    hintImage.src = word.img;
+    hintImage.style.display = "block";
+  } else {
+    hintText.textContent = word.hint || "";
+    hintImage.style.display = "none";
+    hintImage.src = "";
+  }
+}
+
+function markAnswer(word, isCorrect) {
+  if (!answeredMap[word.en]) {
+    answeredMap[word.en] = { result: isCorrect ? "correct" : "wrong" };
+  }
+}
+
+function applySavedStateToButtons(word, buttons) {
+  const saved = answeredMap[word.en];
+  if (!saved) return;
+
+  buttons.forEach(btn => {
+    btn.disabled = true;
+    if (btn.textContent === word.tr) {
+      btn.classList.add("correct");
+    }
+  });
+}
+
+function updateNavButtons() {
+  document.getElementById("prevBtn").disabled = currentIndex <= 0;
+  document.getElementById("nextBtn").disabled = currentIndex >= sessionWords.length - 1;
+}
+
+function updateCompletedNavButtons() {
+  const prev = document.getElementById("completedPrevBtn");
+  const next = document.getElementById("completedNextBtn");
+
+  if (!completedWords.length) {
+    prev.disabled = true;
+    next.disabled = true;
+    return;
+  }
+
+  prev.disabled = completedIndex <= 0;
+  next.disabled = completedIndex >= completedWords.length - 1;
+}
+
+function updateConnectorNavButtons() {
+  document.getElementById("connectorPrevBtn").disabled = connectorIndex <= 0;
+  document.getElementById("connectorNextBtn").disabled = connectorIndex >= activeConnectors.length - 1;
+}
+
+function renderMainQuestion() {
+  show("testScreen");
+
+  const hintBox = document.getElementById("hintBox");
+  const hintText = document.getElementById("hintText");
+  const hintImage = document.getElementById("hintImage");
+  const choicesBox = document.getElementById("choices");
+
+  hintBox.style.display = "none";
+  hintText.textContent = "";
+  hintImage.style.display = "none";
+  hintImage.src = "";
+  choicesBox.innerHTML = "";
+  document.getElementById("status").textContent = "";
+
+  if (!sessionWords.length || currentIndex < 0 || currentIndex >= sessionWords.length) {
+    document.getElementById("testCount").textContent = "0/0";
+    document.getElementById("word").textContent = "Kelime yok";
+    updateNavButtons();
+    return;
+  }
+
+  currentWord = sessionWords[currentIndex];
+  document.getElementById("testCount").textContent = `${currentIndex + 1}/${sessionWords.length}`;
+  document.getElementById("word").textContent = currentWord.en;
+
+  buildChoices(currentWord).forEach(choice => {
+    const btn = document.createElement("button");
+    btn.className = "choice-btn";
+    btn.textContent = choice;
+
+    btn.addEventListener("click", () => {
+      if (answeredMap[currentWord.en]) return;
+
+      if (choice === currentWord.tr) {
+        btn.classList.add("correct");
+        markAnswer(currentWord, true);
+      } else {
+        btn.classList.add("wrong");
+        markAnswer(currentWord, false);
+      }
+
+      applySavedStateToButtons(currentWord, document.querySelectorAll("#choices .choice-btn"));
+      openResultSilently();
+    });
+
+    choicesBox.appendChild(btn);
+  });
+
+  if (answeredMap[currentWord.en]) {
+    applySavedStateToButtons(currentWord, document.querySelectorAll("#choices .choice-btn"));
+  }
+
+  updateNavButtons();
+}
+
+function renderCompletedQuestion() {
+  show("completedScreen");
+
+  if (!completedWords.length) {
+    document.getElementById("completedCount").textContent = "0/0";
+    document.getElementById("completedWord").textContent = "Kelime yok";
+    document.getElementById("completedChoices").innerHTML = "";
+    document.getElementById("completedHintBox").style.display = "none";
+    document.getElementById("completedStatus").textContent = "";
+    updateCompletedNavButtons();
+    return;
+  }
+
+  if (completedIndex < 0) completedIndex = 0;
+  if (completedIndex >= completedWords.length) completedIndex = completedWords.length - 1;
+
+  const word = completedWords[completedIndex];
+  currentWord = word;
+
+  document.getElementById("completedCount").textContent = `${completedIndex + 1}/${completedWords.length}`;
+  document.getElementById("completedWord").textContent = word.en;
+  document.getElementById("completedHintBox").style.display = "none";
+  document.getElementById("completedHintText").textContent = "";
+  document.getElementById("completedHintImage").style.display = "none";
+  document.getElementById("completedHintImage").src = "";
+  document.getElementById("completedStatus").textContent = "";
+
+  const choicesBox = document.getElementById("completedChoices");
+  choicesBox.innerHTML = "";
+
+  buildChoices(word).forEach(choice => {
+    const btn = document.createElement("button");
+    btn.className = "choice-btn";
+    btn.textContent = choice;
+
+    btn.addEventListener("click", () => {
+      document.querySelectorAll("#completedChoices .choice-btn").forEach(b => {
+        b.disabled = true;
+        if (b.textContent === word.tr) b.classList.add("correct");
+      });
+
+      if (choice !== word.tr) {
+        btn.classList.add("wrong");
+      }
+    });
+
+    choicesBox.appendChild(btn);
+  });
+
+  updateCompletedNavButtons();
+}
+
+function openConnectors() {
+  connectorIndex = 0;
+  activeConnectors = [];
+  connectorMode = null;
+
+  show("connectorsScreen");
+
+  document.getElementById("connectorMenu").style.display = "block";
+  document.getElementById("connectorQuiz").style.display = "none";
+
+  document.getElementById("connectorCount").style.display = "none";
+  document.getElementById("connectorType").style.display = "none";
+  document.getElementById("connectorQuestion").textContent = "";
+  document.getElementById("connectorChoices").innerHTML = "";
+  document.getElementById("connectorStatus").textContent = "";
+}
+
+function startConnectorMode(mode) {
   connectorMode = mode;
 
   if (mode === "word") {
@@ -964,136 +919,219 @@
   renderConnectorQuestion();
 }
 
-    function goPrevWord() {
-      if (currentIndex > 0) {
-        currentIndex--;
-        renderMainQuestion();
+function renderConnectorQuestion() {
+  show("connectorsScreen");
+
+  if (!activeConnectors.length) {
+    document.getElementById("connectorCount").style.display = "none";
+    document.getElementById("connectorType").style.display = "none";
+    document.getElementById("connectorQuestion").textContent = "Soru yok";
+    document.getElementById("connectorChoices").innerHTML = "";
+    document.getElementById("connectorStatus").textContent = "";
+    return;
+  }
+
+  if (connectorIndex < 0) connectorIndex = 0;
+  if (connectorIndex >= activeConnectors.length) {
+    connectorIndex = activeConnectors.length - 1;
+  }
+
+  const item = activeConnectors[connectorIndex];
+  const countEl = document.getElementById("connectorCount");
+  const typeEl = document.getElementById("connectorType");
+
+  if (connectorMode === "sentence") {
+    countEl.style.display = "block";
+    countEl.textContent = `${connectorIndex + 1}/${activeConnectors.length}`;
+    typeEl.style.display = "none";
+  } else {
+    countEl.style.display = "none";
+    typeEl.style.display = "none";
+  }
+
+  document.getElementById("connectorQuestion").textContent = item.q;
+  document.getElementById("connectorStatus").textContent = "";
+
+  const box = document.getElementById("connectorChoices");
+  box.innerHTML = "";
+
+  item.options.forEach(opt => {
+    const btn = document.createElement("button");
+    btn.className = "choice-btn";
+    btn.textContent = opt;
+
+    btn.addEventListener("click", () => {
+      document.querySelectorAll("#connectorChoices .choice-btn").forEach(b => {
+        b.disabled = true;
+        if (b.textContent === item.answer) b.classList.add("correct");
+      });
+
+      if (opt !== item.answer) {
+        btn.classList.add("wrong");
       }
-    }
+    });
 
-    function goNextWord() {
-      if (currentIndex < sessionWords.length - 1) {
-        currentIndex++;
-        renderMainQuestion();
-      }
-    }
+    box.appendChild(btn);
+  });
 
-    function goCompletedPrev() {
-      if (completedIndex > 0) {
-        completedIndex--;
-        renderCompletedQuestion();
-      }
-    }
+  updateConnectorNavButtons();
+}
 
-    function goCompletedNext() {
-      if (completedIndex < completedWords.length - 1) {
-        completedIndex++;
-        renderCompletedQuestion();
-      }
-    }
+function startTest() {
+  resetSessionStats();
 
-    function goConnectorPrev() {
-      if (connectorIndex > 0) {
-        connectorIndex--;
-        renderConnectorQuestion();
-      }
-    }
+  const filteredWords = WORDS.filter(
+    w => !completedWords.some(c => c.en === w.en)
+  );
 
-    function goConnectorNext() {
-      if (connectorIndex < CONNECTORS.length - 1) {
-        connectorIndex++;
-        renderConnectorQuestion();
-      }
-    }
+  if (!filteredWords.length) {
+    alert("Tüm kelimeler tamamlananlara eklendi.");
+    showHome();
+    return;
+  }
 
-    function getCorrectCount() {
-      return Object.values(answeredMap).filter(v => v.result === "correct").length;
-    }
+  sessionWords = shuffle(filteredWords).map(w => ({ ...w }));
+  currentIndex = 0;
+  renderMainQuestion();
+}
 
-    function getWrongCount() {
-      return Object.values(answeredMap).filter(v => v.result === "wrong").length;
-    }
+function openCompletedTest() {
+  completedIndex = 0;
+  renderCompletedQuestion();
+}
 
-    function openResultSilently() {
-      document.getElementById("statTotalWords").textContent = WORDS.length;
-      document.getElementById("statAnswered").textContent = Object.keys(answeredMap).length;
-      document.getElementById("statCorrect").textContent = getCorrectCount();
-      document.getElementById("statWrong").textContent = getWrongCount();
-    }
+function goPrevWord() {
+  if (currentIndex > 0) {
+    currentIndex--;
+    renderMainQuestion();
+  }
+}
 
-    function openResult() {
-      show("statsScreen");
-      openResultSilently();
-    }
+function goNextWord() {
+  if (currentIndex < sessionWords.length - 1) {
+    currentIndex++;
+    renderMainQuestion();
+  }
+}
 
-    function addCompleted() {
-      if (!currentWord) return;
-      uniquePushWord(completedWords, currentWord);
-      savePersistentState();
-      renderMainQuestion();
-    }
+function goCompletedPrev() {
+  if (completedIndex > 0) {
+    completedIndex--;
+    renderCompletedQuestion();
+  }
+}
 
-    function resetStats() {
-      resetSessionStats();
-      openResult();
-    }
+function goCompletedNext() {
+  if (completedIndex < completedWords.length - 1) {
+    completedIndex++;
+    renderCompletedQuestion();
+  }
+}
 
-    function showClearCompletedModal() {
-      document.getElementById("clearCompletedModal").style.display = "block";
-    }
+function goConnectorPrev() {
+  if (connectorIndex > 0) {
+    connectorIndex--;
+    renderConnectorQuestion();
+  }
+}
 
-    function hideClearCompletedModal() {
-      document.getElementById("clearCompletedModal").style.display = "none";
-    }
+function goConnectorNext() {
+  if (connectorIndex < activeConnectors.length - 1) {
+    connectorIndex++;
+    renderConnectorQuestion();
+  }
+}
 
-    function clearCompletedWords() {
-      completedWords = [];
-      localStorage.removeItem("wowCompletedWords");
-      hideClearCompletedModal();
-      openCompletedTest();
-    }
+function getCorrectCount() {
+  return Object.values(answeredMap).filter(v => v.result === "correct").length;
+}
 
-    document.getElementById("startTestBtn").addEventListener("click", startTest);
-    document.getElementById("showStatsBtn").addEventListener("click", openResult);
-    document.getElementById("showCompletedBtn").addEventListener("click", openCompletedTest);
-    document.getElementById("showConnectorsBtn").addEventListener("click", openConnectors);
-    document.getElementById("connectorWordBtn").addEventListener("click", () => {
+function getWrongCount() {
+  return Object.values(answeredMap).filter(v => v.result === "wrong").length;
+}
+
+function openResultSilently() {
+  document.getElementById("statTotalWords").textContent = WORDS.length;
+  document.getElementById("statAnswered").textContent = Object.keys(answeredMap).length;
+  document.getElementById("statCorrect").textContent = getCorrectCount();
+  document.getElementById("statWrong").textContent = getWrongCount();
+}
+
+function openResult() {
+  show("statsScreen");
+  openResultSilently();
+}
+
+function addCompleted() {
+  if (!currentWord) return;
+  uniquePushWord(completedWords, currentWord);
+  savePersistentState();
+  renderMainQuestion();
+}
+
+function resetStats() {
+  resetSessionStats();
+  openResult();
+}
+
+function showClearCompletedModal() {
+  document.getElementById("clearCompletedModal").style.display = "block";
+}
+
+function hideClearCompletedModal() {
+  document.getElementById("clearCompletedModal").style.display = "none";
+}
+
+function clearCompletedWords() {
+  completedWords = [];
+  localStorage.removeItem("wowCompletedWords");
+  hideClearCompletedModal();
+  openCompletedTest();
+}
+
+document.getElementById("startTestBtn").addEventListener("click", startTest);
+document.getElementById("showStatsBtn").addEventListener("click", openResult);
+document.getElementById("showCompletedBtn").addEventListener("click", openCompletedTest);
+document.getElementById("showConnectorsBtn").addEventListener("click", openConnectors);
+
+document.getElementById("connectorWordBtn").addEventListener("click", () => {
   startConnectorMode("word");
 });
-    document.getElementById("connectorSentenceBtn").addEventListener("click", () => {
+
+document.getElementById("connectorSentenceBtn").addEventListener("click", () => {
   startConnectorMode("sentence");
 });
 
-    document.getElementById("speakBtn").addEventListener("click", () => speakWord(currentWord));
-    document.getElementById("hintBtn").addEventListener("click", () => currentWord && renderHint("hintBox", "hintText", "hintImage", currentWord));
-    document.getElementById("prevBtn").addEventListener("click", goPrevWord);
-    document.getElementById("nextBtn").addEventListener("click", goNextWord);
-    document.getElementById("addCompletedBtn").addEventListener("click", addCompleted);
-    document.getElementById("testHomeBtn").addEventListener("click", showHome);
+document.getElementById("speakBtn").addEventListener("click", () => speakWord(currentWord));
+document.getElementById("hintBtn").addEventListener("click", () => currentWord && renderHint("hintBox", "hintText", "hintImage", currentWord));
+document.getElementById("prevBtn").addEventListener("click", goPrevWord);
+document.getElementById("nextBtn").addEventListener("click", goNextWord);
+document.getElementById("addCompletedBtn").addEventListener("click", addCompleted);
+document.getElementById("testHomeBtn").addEventListener("click", showHome);
 
-    document.getElementById("completedSpeakBtn").addEventListener("click", () => speakWord(currentWord));
-    document.getElementById("completedHintBtn").addEventListener("click", () => currentWord && renderHint("completedHintBox", "completedHintText", "completedHintImage", currentWord));
-    document.getElementById("completedPrevBtn").addEventListener("click", goCompletedPrev);
-    document.getElementById("completedNextBtn").addEventListener("click", goCompletedNext);
-    document.getElementById("clearCompletedBtn").addEventListener("click", showClearCompletedModal);
-    document.getElementById("completedHomeBtn").addEventListener("click", showHome);
+document.getElementById("completedSpeakBtn").addEventListener("click", () => speakWord(currentWord));
+document.getElementById("completedHintBtn").addEventListener("click", () => currentWord && renderHint("completedHintBox", "completedHintText", "completedHintImage", currentWord));
+document.getElementById("completedPrevBtn").addEventListener("click", goCompletedPrev);
+document.getElementById("completedNextBtn").addEventListener("click", goCompletedNext);
+document.getElementById("clearCompletedBtn").addEventListener("click", showClearCompletedModal);
+document.getElementById("completedHomeBtn").addEventListener("click", showHome);
 
-    document.getElementById("connectorPrevBtn").addEventListener("click", goConnectorPrev);
-    document.getElementById("connectorNextBtn").addEventListener("click", goConnectorNext);
-    document.getElementById("connectorsHomeBtn").addEventListener("click", showHome);
+document.getElementById("connectorPrevBtn").addEventListener("click", goConnectorPrev);
+document.getElementById("connectorNextBtn").addEventListener("click", goConnectorNext);
+document.getElementById("connectorsHomeBtn").addEventListener("click", openConnectors);
 
-    document.getElementById("resetStatsBtn").addEventListener("click", resetStats);
-    document.getElementById("statsHomeBtn").addEventListener("click", showHome);
+document.getElementById("resetStatsBtn").addEventListener("click", resetStats);
+document.getElementById("statsHomeBtn").addEventListener("click", showHome);
 
-    document.getElementById("confirmClearCompletedBtn").addEventListener("click", clearCompletedWords);
-    document.getElementById("cancelClearCompletedBtn").addEventListener("click", hideClearCompletedModal);
+document.getElementById("confirmClearCompletedBtn").addEventListener("click", clearCompletedWords);
+document.getElementById("cancelClearCompletedBtn").addEventListener("click", hideClearCompletedModal);
 
-    document.addEventListener("dblclick", function (e) {
-      e.preventDefault();
-    }, { passive: false });
+document.addEventListener("dblclick", function (e) {
+  e.preventDefault();
+}, { passive: false });
 
-    loadState();
-    showHome();
+loadState();
+showHome();
   </script>
 </body>
 </html>
